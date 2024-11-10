@@ -1,0 +1,85 @@
+<div class="reportes-container">
+  <h2 class="titulo"><i class="fas fa-chart-bar"></i> Reportes de Asistencia</h2>
+
+  <!-- Filtro de búsqueda por empleado con combobox y botón de búsqueda -->
+  <div class="filtro">
+    <label for="empleado"><i class="fas fa-search"></i> Buscar por nombre:</label>
+    <input type="text" id="empleado" placeholder="Ingrese nombre del empleado" [(ngModel)]="searchText" (input)="filtrarEmpleados()">
+    
+    <!-- ComboBox con nombres de empleados filtrados -->
+<!-- ComboBox con nombres de empleados filtrados -->
+<select [(ngModel)]="selectedEmpleado" (change)="buscarEmpleado()">
+  <option [ngValue]="null" disabled hidden>Seleccione un empleado</option> <!-- Placeholder -->
+  <option *ngFor="let empleado of empleados" [ngValue]="empleado">{{ empleado.nombre }}</option>
+</select>
+
+
+    
+    <!-- Botón de búsqueda -->
+    <button class="buscar-btn" (click)="buscarEmpleado()"><i class="fas fa-search"></i> Buscar</button>
+  </div>
+
+  <!-- Lista de empleados en estilo de tarjetas -->
+  <div class="empleados-lista">
+    <div *ngFor="let reporte of empleadosFiltrados" class="empleado-tarjeta" (click)="abrirModal(reporte)">
+      <div class="empleado-header">
+        <h3 class="nombre-empleado"><i class="fas fa-user"></i><strong>{{ reporte.empleado.nombre }}</strong></h3>
+        <p class="rol-empleado"><i class="fas fa-briefcase"></i> Rol: <strong>{{ reporte.empleado.rol }}</strong></p>
+      </div>
+      <div class="empleado-detalles">
+        <div class="estado">
+          <label><i class="fas fa-circle"></i> Estado:</label>
+          <span [ngClass]="{'activo': reporte.empleado.activo, 'inactivo': !reporte.empleado.activo}" class="estado-bolita"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- Modal de detalles del empleado -->
+<div *ngIf="empleadoSeleccionado" class="modal-overlay" (click)="cerrarModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2 class="modal-titulo">Detalles de {{ empleadoSeleccionado.empleado.nombre }}</h2>
+
+    <div class="modal-info">
+      <p><strong>Identificación:</strong> {{ empleadoSeleccionado.empleado.identificacion }}</p>
+      <p><strong>Fecha de Contratación:</strong> {{ empleadoSeleccionado.empleado.fechaContratacion | date: 'mediumDate' }}</p>
+    </div>
+
+    <!-- Tabla de asistencias del empleado -->
+    <h3 class="modal-subtitulo">Registros de Asistencia:</h3>
+    <div class="tabla-container">
+      <table class="tabla-asistencias">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Estado Entrada</th>
+            <th>Estado Salida</th>
+            <th>Diferencia Tiempo Entrada</th>
+            <th>Diferencia Tiempo Salida</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let asistencia of empleadoSeleccionado.asistencias">
+            <td>{{ asistencia.fecha }}</td>
+            <td [ngStyle]="{ 'background-color': getEstadoColor(asistencia.estadoEntrada || 'default') }">
+              {{ asistencia.estadoEntrada || 'No disponible' }}
+            </td>
+            <td [ngStyle]="{ 'background-color': getEstadoColor(asistencia.estadoSalida || 'default') }">
+              {{ asistencia.estadoSalida || 'No disponible' }}
+            </td>
+            <td [ngStyle]="{ 'background': getEstadoGradient(asistencia.diferenciaTiempoEntrada) }">
+              {{ asistencia.diferenciaTiempoEntrada || 'No disponible' }}
+            </td>
+            <td [ngStyle]="{ 'background': getEstadoGradient(asistencia.diferenciaTiempoSalida) }">
+              {{ asistencia.diferenciaTiempoSalida || 'No disponible' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button class="modal-boton-cerrar" (click)="cerrarModal()">Cerrar</button>
+  </div>
+</div>
+

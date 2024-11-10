@@ -1,0 +1,50 @@
+<!-- bienvenida.component.html -->
+<div class="jumbotron">
+    <h1 class="display-4">Bienvenido a FarmaGestión</h1>
+    <p class="lead">Nuestra plataforma está diseñada para facilitar la gestión de inventario, empleados y reportes de asistencia en la farmacia. ¡Inicia sesión y explora todas nuestras herramientas para optimizar tu negocio!</p>
+    <hr class="my-4">
+  
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <button class="nav-link" id="v-pills-inventario-tab">Consultar Inventario</button>
+      <button class="nav-link" id="v-pills-ventas-tab">Consultar Ventas</button>
+      <button class="nav-link" id="v-pills-empleados-tab">Consultar Empleados</button>
+      <button class="nav-link" id="v-pills-actualizar-empleados-tab">Actualizar Datos de Empleados</button>
+    </div>
+  </div>
+  
+  <!-- actualizar-empleados.component.html -->
+<div *ngIf="modalEstado" class="modal fade show" tabindex="-1" aria-labelledby="actualizarDatosLabel" aria-hidden="true" style="display: block;">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Actualizar Datos de Empleados</h5>
+          <button type="button" class="btn-close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="idEmpleado" class="form-label"><strong>ID del Empleado</strong></label>
+                <input type="text" class="form-control form-control-sm" id="idEmpleado" required readonly>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="nombreEmpleado" class="form-label"><strong>Nombre</strong></label>
+                <input type="text" class="form-control form-control-sm" id="nombreEmpleado" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="rolEmpleado" class="form-label"><strong>Rol</strong></label>
+                <input type="text" class="form-control form-control-sm" id="rolEmpleado" required>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="telefonoEmpleado" class="form-label"><strong>Teléfono</strong></label>
+                <input type="text" class="form-control form-control-sm" id="telefonoEmpleado" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

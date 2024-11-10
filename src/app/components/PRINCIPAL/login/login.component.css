@@ -1,0 +1,380 @@
+/* Estilo general para el contenedor principal del LoginsComponent */
+.logins-container {
+    width: 100%; /* Asegúrate de que ocupe todo el ancho del contenedor */
+    height: 100%; /* Ocupa toda la altura de la ventana */
+    display: flex;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    background: linear-gradient(to bottom, #f0f0f0, #ffffff); /* Fondo claro */
+    overflow: hidden; /* Evita el desbordamiento del contenido */
+  }
+  
+  .signin {
+    position: absolute; /* Mantener la posición absoluta */
+    top: 45%; /* Mantener la posición vertical */
+    left: 10%; /* Centrar horizontalmente */
+    transform: translate(-50%, -50%); /* Ajustar el centro */
+    display: block;
+    width: 250px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(0,0,0,0.1);
+    background: linear-gradient(to bottom right, #3a78fc, #70d8e6, #3a78fc); /* Gradiente lineal */
+    border-radius: 5px; /* Bordes redondeados */
+    box-shadow: inset 1px 1px 0 0 rgba(255,255,255,0.2), inset -1px -1px 0 0 rgba(0,0,0,0.2); /* Sombra */
+  }
+  
+  .signin .avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 35px auto;
+    border: 5px solid #fff;
+    border-radius: 100%;
+    pointer-events: none;
+  }
+  
+  .signin .inputrow {
+    position: relative;
+  }
+  
+  .signin .inputrow label {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+  }
+  
+  .signin .inputrow label:before {
+    color: #538a9a;
+    opacity: 0.4;
+    transition: opacity 300ms ease;
+  }
+  
+  .signin input[type="text"],
+  .signin input[type="password"] {
+    padding: 10px 12px 10px 32px;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255,255,255,0.5);
+    background-color: #fff;
+    color: #333;
+    font-size: 1em;
+    font-weight: 300;
+    outline: none;
+    border-radius: 5px;
+    transition: border-color 300ms ease;
+    box-sizing: border-box;
+  }
+  
+  .signin input[type="text"]:focus + label:before,
+  .signin input[type="password"]:focus + label:before {
+    opacity: 1;
+  }
+  
+  .signin-submit {
+    height: 40px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background: linear-gradient(to bottom, #06ee06, #77fc77);
+    text-transform: uppercase;
+    color: #0e0101;
+    border: 0px;
+    float: right;
+    outline: none;
+    border-radius: 5px;
+  }
+  
+  .signin-submit:hover {
+    background: linear-gradient(to bottom, #307e3a, #77fc77);
+  }
+  
+  input[type="checkbox"] {
+    display: none;
+  }
+  
+  input[type="checkbox"] + label {
+    position: relative;
+    padding-left: 36px;
+    font-size: 0.6em;
+    font-weight: normal;
+    line-height: 16px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    user-select: none;
+  }
+  
+  input[type="checkbox"] + label:before,
+  input[type="checkbox"] + label:after {
+    content: "";
+    position: absolute;
+    display: block;
+    height: 16px;
+    border-radius: 30px;
+  }
+  
+  input[type="checkbox"] + label:before {
+    left: 0;
+    top: -2px;
+    width: 30px;
+    background: rgba(0,0,0,0.3);
+    box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.3);
+  }
+  
+  input[type="checkbox"] + label:after {
+    opacity: 0.3;
+    background: #fff;
+    top: 0px;
+    left: 2px;
+    height: 12px;
+    width: 12px;
+    transition: all 200ms ease;
+  }
+  
+  input[type="checkbox"]:checked + label {
+    opacity: 1;
+  }
+  
+  input[type="checkbox"]:checked + label:after {
+    opacity: 1;
+    left: 16px;
+  }
+  
+  .cf:before,
+  .cf:after {
+    content: " ";
+    display: table;
+  }
+  
+  .cf:after {
+    clear: both;
+  }
+  
+  .cf {
+    zoom: 1;
+  }
+  
+  .custom-icon {
+    width: 200px;
+    height: 150px;
+    background-image: url('DROG.png');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-bottom: 20px;
+    margin-left: 20px;
+  }
+  
+  .jumbotron.login {
+    padding: 19px;
+  }
+  
+  .btn-danger {
+    background: linear-gradient(to bottom right, #f15252, #ff9999, #f15252);
+    color: black;
+    font-weight: bold;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-danger:hover {
+    background: linear-gradient(to bottom right, #f15252, #f15252);
+    color: black;
+    font-weight: bold;
+  }
+  
+  /* Ejemplo de estilos para el ícono de visibilidad */
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  .ion-eye,
+  .ion-eye-disabled {
+    font-size: 1.2rem;
+  }
+  
+  .ion-eye-disabled {
+    opacity: 0.5;
+  }
+  
+  /* Estilo para la opción "Olvidé mi contraseña" */
+  .forgot-password {
+    display: block;
+    margin-top: 10px;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .forgot-password:hover {
+    text-decoration: none;
+  }
+  
+  /* Estilo para el modal */
+  .recovery-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 5px;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .validation-message {
+    margin-bottom: 10px;
+  }
+  
+  /* Estilo para la opción "Olvidé mi contraseña" */
+  
+  /* Estilo para la opción "Olvidé mi contraseña" */
+  .forgot-password {
+    display: block;
+    margin-top: 10px;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .forgot-password:hover {
+    text-decoration: none;
+  }
+  
+  /* Estilo para el modal */
+  /* Estilo para el modal */
+  .recovery-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 5px;
+    position: relative; /* Necesario para posicionar los botones en las esquinas */
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+  }
+  
+  h2 {
+    margin-top: 0;
+  }
+  
+  .validation-message {
+    margin-bottom: 20px;
+  }
+  
+  .inputrow {
+    position: relative;
+    margin-bottom: 15px;
+  }
+  
+  .inputrow input {
+    width: 100%; /* Ajusta el ancho del input para ocupar todo el espacio disponible */
+    padding: 10px 10px 10px 35px; /* Espacio adicional para el ícono dentro del input */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .inputrow label {
+    position: absolute;
+    left: 10px; /* Espacio desde el borde izquierdo */
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 20px;
+  }
+  
+  .modal-button {
+    padding: 10px 15px;
+    margin: 10px 5px;
+  }
+  
+  .btn-success {
+    background-color: #28a745;
+    border: none;
+    color: black;
+    cursor: pointer;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: black;
+    cursor: pointer;
+  }
+  
+  /* Estilo para los botones en las esquinas */
+  .modal-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .cancel-button {
+    font-size: 14px; /* Tamaño de fuente más pequeño para el botón Cancelar */
+  }
+  
+  .send-button {
+    font-size: 16px; /* Tamaño de fuente ligeramente más grande para el botón Enviar */
+  }
+  
+  

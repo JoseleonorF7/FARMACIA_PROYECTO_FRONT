@@ -1,0 +1,7 @@
+.chart-container {
+  position: relative;
+  height: 40vh; /* Altura responsive (40% del alto de la pantalla) */
+  width: 80vw;  /* Ancho responsive (80% del ancho de la pantalla) */
+  margin: auto; /* Centrar los contenedores */
+  padding: 10px; /* Un pequeño padding si es necesario */
+}

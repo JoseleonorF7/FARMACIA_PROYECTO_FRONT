@@ -1,0 +1,89 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+header {
+  margin: 0; /* Elimina el margen superior del header */
+  padding: 0; /* Elimina el espaciado adicional */
+}
+
+header {
+    font-family: 'Times New Roman', Times, serif;
+    background: linear-gradient(to bottom, #30497e, #77d6fc); /* Cambia los colores de acuerdo a tu preferencia */
+    color: #110101; /* Color del texto */
+    height: 90px; /* Altura fija del encabezado */
+    padding: 20px; /* Espaciado interno */
+    display: flex; /* Mostrar elementos en línea */
+    align-items: center; /* Alinear elementos verticalmente */
+    overflow: hidden; /* Oculta cualquier contenido desbordante */
+  }
+  
+  .custom-icon {
+    width: 120px;
+    height: 100px;
+    background-image: url('DROGSINFONDO.png');
+    background-position: center;
+    background-size: contain; /* Ajusta el tamaño de la imagen al contenedor */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    margin-right: 20px; /* Ajusta el espacio entre el icono y el texto */
+  }
+  
+  .title h1 {
+    font-size: 20px; /* Tamaño de la fuente del título */
+    margin: 0; /* Eliminar margen superior e inferior */
+  }
+  
+  .title h2 {
+    font-size: 40px; /* Tamaño de la fuente del título */
+    margin: 0; /* Eliminar margen superior e inferior */
+  }
+  
+  /* Estilos para la barra de navegación */
+  .navbar-custom {
+    color: black;
+    background: linear-gradient(to bottom,  #77d6fc, #30497e); /* Cambia los colores de acuerdo a tu preferencia */
+  }
+  
+  .navbar-nav {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en lugar de causar desbordamiento */
+    justify-content: center; /* Centra los elementos horizontalmente */
+    overflow-x: auto; /* Permite el desplazamiento horizontal si el contenido es más ancho */
+    padding: 0; /* Elimina el espaciado adicional */
+    margin: 0; /* Elimina el margen adicional */
+  }
+  
+  .nav-item {
+    display: flex;
+    margin: 0 10px;
+     /* Espaciado entre los elementos */
+  }
+  
+  .nav-link {
+    font-family: 'Times New Roman', Times, serif;
+
+    display: block;
+    padding: 10px 15px; /* Espaciado interno */
+    text-decoration: none; /* Elimina el subrayado */
+    color: black;
+    background: linear-gradient(to bottom,  #30497e, #77d6fc); /* Cambia los colores de acuerdo a tu preferencia */
+    border-radius: 100px; /* Ajusta la curvatura de los bordes */
+  }
+  
+  .nav-link:hover {
+    background: #30497e; /* Cambia los colores de acuerdo a tu preferencia */
+    border-radius: 100px;
+  }
+  
+  .nav-link.active {
+    background: #30497e; /* Cambia los colores de acuerdo a tu preferencia */
+    border-radius: 100px;
+    /* Otros estilos según tus preferencias */
+  }
+  
+  .nav-link.disabled {
+    background-color: #d3d3d3; /* Color para los enlaces deshabilitados */
+    color: #a9a9a9; /* Color del texto para los enlaces deshabilitados */
+  }

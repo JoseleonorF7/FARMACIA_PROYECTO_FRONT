@@ -1,0 +1,61 @@
+<!-- Contenido principal de tu página -->
+<div class="signin cf">
+    <div *ngIf="(loginService.mostrarFormulario$ | async)">
+      <form>
+        <div class="inputrow">
+          <input type="text" id="name1" name="username" [(ngModel)]="username" placeholder="Username" />
+          <label class="ion-person" for="name1"></label>
+        </div>
+        <div class="inputrow">
+          <input [type]="passwordFieldType" id="pass" name="password" [(ngModel)]="password" placeholder="Password" />
+          <label class="ion-locked" for="pass"></label>
+          <i class="toggle-password" (click)="togglePasswordVisibility()">
+            <span *ngIf="passwordFieldType === 'password'" class="ion-eye"></span>
+            <span *ngIf="passwordFieldType === 'text'" class="ion-eye-disabled"></span>
+          </i>
+        </div>
+        <input type="checkbox" name="remember" id="remember" [(ngModel)]="rememberMe" />
+        <label class="radio" for="remember">Stay Logged In</label>
+        <button type="button" class="signin-submit" (click)="login()">Login</button>
+  <button type="button" class="signin-submit" (click)="openRecoveryModal()">Olvidé mi contraseña</button>
+      </form>
+    </div>
+  
+    <div *ngIf="!(loginService.mostrarFormulario$ | async)">
+      <div class="jumbotron login">
+        <p class="lead">Bienvenido {{ studentInfo?.data?.nombre || 'Usuario' }}</p>
+        <hr class="my-4">
+        <button type="button" class="btn btn-danger x" (click)="logout()">Cerrar sesión</button>
+        <p class="lead"></p>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- logins.component.html -->
+  <div class="logins-container">
+  
+    <div *ngIf="showRecoveryModal" class="recovery-modal">
+      <div class="modal-content">
+        <span class="close" (click)="closeRecoveryModal()">&times;</span>
+        <h2>Recuperación de Contraseña</h2>
+        <p *ngIf="validationMessage" [ngClass]="{'text-success': validationMessage.includes('enviado'), 'text-danger': validationMessage.includes('Error')}" class="validation-message">
+          {{ validationMessage }}
+        </p>
+        <form (ngSubmit)="sendRecoveryLink()">
+          <div class="inputrow">
+            <input type="email" id="email" name="email" [(ngModel)]="email" placeholder="Correo electrónico" required />
+            <label class="ion-email" for="email"></label>
+          </div>
+          <div class="modal-buttons">
+            <button type="button" class="btn btn-danger cancel-button" (click)="closeRecoveryModal()">Cancelar</button>
+            <button type="submit" class="btn btn-success send-button">Enviar enlace de recuperación</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+  
+    <router-outlet></router-outlet> <!-- Aquí se cargará OpcionesInicioComponent -->
+  </div>
+  
