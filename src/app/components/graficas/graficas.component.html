@@ -1,13 +1,51 @@
-<div class="chart-container" style="position: relative; height: 40vh; width: 80vw;">
-  <canvas id="estadoPorEmpleadoChart"></canvas>
-</div>
+<div class="container">
+  <!-- Panel de Selección de Gráficas -->
+  <div class="chart-selection">
+    <button (click)="mostrarGrafica('estadoPorEmpleado')">Estado por Empleado</button>
+    <button (click)="mostrarGrafica('tardanzaEntrada')">Tardanza de Entrada</button>
+    <button (click)="mostrarGrafica('tardanzaSalida')">Tardanza de Salida</button>
+    <button (click)="mostrarGrafica('tardanzaGeneral')">Tardanza General</button>
+  </div>
 
-<div class="chart-container" style="position: relative; height: 40vh; width: 80vw;">
-  <canvas id="tardanzaEntradaChart"></canvas>
-</div>
-<div class="chart-container" style="position: relative; height: 40vh; width: 80vw;">
-  <canvas id="tardanzaSalidaChart"></canvas>
-</div>
-<div class="chart-container" style="position: relative; height: 40vh; width: 80vw;">
-  <canvas id="tardanzaGeneralChart"></canvas>
+  <!-- Contenedor de Gráficas -->
+  <div class="chart-container">
+    <!-- Gráfico de Estado por Empleado -->
+    <canvas
+      *ngIf="graficaActual === 'estadoPorEmpleado'"
+      id="estadoPorEmpleadoChart"
+      (click)="onBarClick($event)"
+    ></canvas>
+
+    <!-- Gráfico de Tardanza de Entrada -->
+    <canvas
+      *ngIf="graficaActual === 'tardanzaEntrada'"
+      id="tardanzaEntradaChart"
+      (click)="onBarClick($event)"
+    ></canvas>
+
+    <!-- Gráfico de Tardanza de Salida -->
+    <canvas
+      *ngIf="graficaActual === 'tardanzaSalida'"
+      id="tardanzaSalidaChart"
+      (click)="onBarClick($event)"
+    ></canvas>
+
+    <!-- Gráfico de Tardanza General -->
+    <canvas
+      *ngIf="graficaActual === 'tardanzaGeneral'"
+      id="tardanzaGeneralChart"
+      (click)="onBarClick($event)"
+    ></canvas>
+  </div>
+
+  <!-- Panel de Detalles del Empleado Seleccionado -->
+  <div class="employee-details" *ngIf="empleadoSeleccionado">
+    <h3>Detalles del Empleado: {{ empleadoSeleccionado.empleado.id }}</h3>
+    <p><strong>Nombre:</strong> {{ empleadoSeleccionado.empleado.nombre }}</p>
+    <p><strong>Fecha:</strong> {{ empleadoSeleccionado.fecha }}</p>
+    <p><strong>Hora de Entrada:</strong> {{ empleadoSeleccionado.horaEntrada }}</p>
+    <p><strong>Hora de Salida:</strong> {{ empleadoSeleccionado.horaSalida }}</p>
+    <p><strong>Estado de Entrada:</strong> {{ empleadoSeleccionado.estadoEntrada }}</p>
+    <p><strong>Estado de Salida:</strong> {{ empleadoSeleccionado.estadoSalida }}</p>
+  </div>
 </div>

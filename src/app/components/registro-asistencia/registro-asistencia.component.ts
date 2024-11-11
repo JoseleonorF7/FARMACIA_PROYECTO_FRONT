@@ -43,43 +43,53 @@ export class RegistroAsistenciaComponent implements OnInit {
     );
   }
 
-  // Filtra las asistencias por la fecha seleccionada
-  filtrarAsistencias(): void {
-    const today = new Date();
-    const todayDateString = today.toISOString().split('T')[0]; // Fecha de hoy (YYYY-MM-DD)
-    
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-    const yesterdayDateString = yesterday.toISOString().split('T')[0]; // Fecha de ayer (YYYY-MM-DD)
-    
-    const oneWeekAgo = new Date(today);
-    oneWeekAgo.setDate(today.getDate() - 7);
-    const oneWeekAgoDateString = oneWeekAgo.toISOString().split('T')[0]; // Fecha de hace una semana (YYYY-MM-DD)
+  // Filtra las asistenc
+// Filtra las asistencias por la fecha seleccionada
+filtrarAsistencias(): void {
+  const today = new Date();
   
-    // Filtrar asistencias de hoy
-    this.asistenciasHoy = this.asistenciasFusionadas.filter(asistencia => {
-      const asistenciaFecha = new Date(asistencia.fecha).toISOString().split('T')[0]; // Solo la fecha (YYYY-MM-DD)
-      return asistenciaFecha === todayDateString;
-    });
+  // Ajustar la hora de "hoy" a medianoche (00:00) para evitar problemas con la hora
+  today.setHours(0, 0, 0, 0); 
+  const todayDateString = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
   
-    // Filtrar asistencias de ayer
-    this.asistenciasAyer = this.asistenciasFusionadas.filter(asistencia => {
-      const asistenciaFecha = new Date(asistencia.fecha).toISOString().split('T')[0]; // Solo la fecha (YYYY-MM-DD)
-      return asistenciaFecha === yesterdayDateString;
-    });
-  
-    // Filtrar asistencias de la semana
-    this.asistenciasSemana = this.asistenciasFusionadas.filter(asistencia => {
-      const asistenciaFecha = new Date(asistencia.fecha).toISOString().split('T')[0]; // Solo la fecha (YYYY-MM-DD)
-      return asistenciaFecha >= oneWeekAgoDateString && asistenciaFecha <= todayDateString;
-    });
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+  yesterday.setHours(0, 0, 0, 0); // Aseguramos que "ayer" también sea a medianoche
+  const yesterdayDateString = `${yesterday.getFullYear()}-${(yesterday.getMonth() + 1).toString().padStart(2, '0')}-${yesterday.getDate().toString().padStart(2, '0')}`;
 
-    this.asistenciasTodas =this.asistenciasFusionadas
-  
-    // Aplica el filtro seleccionado por defecto
-    this.aplicarFiltro();
-  }
-  
+  const oneWeekAgo = new Date(today);
+  oneWeekAgo.setDate(today.getDate() - 7);
+  oneWeekAgo.setHours(0, 0, 0, 0); // Aseguramos que "una semana atrás" también sea a medianoche
+  const oneWeekAgoDateString = `${oneWeekAgo.getFullYear()}-${(oneWeekAgo.getMonth() + 1).toString().padStart(2, '0')}-${oneWeekAgo.getDate().toString().padStart(2, '0')}`;
+
+  // Filtrar asistencias de hoy
+  this.asistenciasHoy = this.asistenciasFusionadas.filter(asistencia => {
+    console.log(asistencia.fecha)
+    console.log(todayDateString)
+    // Aseguramos que la fecha de la asistencia se convierta correctamente a la zona horaria local
+    const asistenciaFecha = asistencia.fecha; 
+    return asistenciaFecha=== todayDateString;
+  });
+
+  // Filtrar asistencias de ayer
+  this.asistenciasAyer = this.asistenciasFusionadas.filter(asistencia => {
+    const asistenciaFecha = asistencia.fecha;
+    return asistenciaFecha === yesterdayDateString;
+  });
+
+  // Filtrar asistencias de la semana
+  this.asistenciasSemana = this.asistenciasFusionadas.filter(asistencia => {
+    const asistenciaFecha = asistencia.fecha;
+    return asistenciaFecha >= oneWeekAgoDateString;
+  });
+
+  this.asistenciasTodas = this.asistenciasFusionadas;
+
+  // Aplica el filtro seleccionado por defecto
+  this.aplicarFiltro();
+}
+
+
 
   // Aplica el filtro según la opción seleccionada
   aplicarFiltro(): void {

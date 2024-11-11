@@ -1,50 +1,105 @@
 <!-- bienvenida.component.html -->
 <div class="jumbotron">
-    <h1 class="display-4">Bienvenido a FarmaGestión</h1>
-    <p class="lead">Nuestra plataforma está diseñada para facilitar la gestión de inventario, empleados y reportes de asistencia en la farmacia. ¡Inicia sesión y explora todas nuestras herramientas para optimizar tu negocio!</p>
-    <hr class="my-4">
-  
-    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-      <button class="nav-link" id="v-pills-inventario-tab">Consultar Inventario</button>
-      <button class="nav-link" id="v-pills-ventas-tab">Consultar Ventas</button>
-      <button class="nav-link" id="v-pills-empleados-tab">Consultar Empleados</button>
-      <button class="nav-link" id="v-pills-actualizar-empleados-tab">Actualizar Datos de Empleados</button>
-    </div>
+  <h1 class="display-4">Bienvenido </h1>
+  <p class="lead">Nuestra plataforma está diseñada para facilitar la gestión de empleados y reportes de
+    asistencia en la farmacia. ¡Explora todas nuestras herramientas para mejorar tu negocio!</p>
+  <hr class="my-4">
+
+  <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+    <button class="nav-link" id="v-pills-reportes-tab" (click)="abrirReporte()">Reportes</button>
+    <button class="nav-link" id="v-pills-ventas-tab">"POR AÑADIR"</button>
+    <button class="nav-link" id="v-pills-actualizar-empleados-tab" (click)="modalEstado = true">Actualizar Datos de
+      Empleados</button>
+    <button class="nav-link" id="v-pills-empleados-tab">Actualizar Contraseña</button>
+
   </div>
-  
-  <!-- actualizar-empleados.component.html -->
-<div *ngIf="modalEstado" class="modal fade show" tabindex="-1" aria-labelledby="actualizarDatosLabel" aria-hidden="true" style="display: block;">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Actualizar Datos de Empleados</h5>
-          <button type="button" class="btn-close"></button>
+</div>
+
+<!-- actualizar-empleados.component.html -->
+<!-- Modal -->
+<!-- Modal para actualizar empleados -->
+<!-- Modal para actualizar empleados -->
+<div *ngIf="modalEstado" class="modal fade show" tabindex="-1" aria-labelledby="actualizarDatosLabel" aria-hidden="true"
+  style="display: block;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Actualizar Datos de Empleados</h5>
+        <button type="button" class="btn-close" (click)="cerrarModal()"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Filtro de búsqueda por nombre -->
+        <div class="form-group">
+          <label for="empleadoSeleccionado">Seleccionar empleado:</label>
+          <select class="form-control" [(ngModel)]="empleadoSeleccionado" (change)="llenarFormulario()">
+            <option [ngValue]="null" disabled hidden>Seleccione un empleado</option>
+            <option *ngFor="let empleado of empleadosFiltrados" [ngValue]="empleado">{{ empleado.nombre }}</option>
+          </select>
         </div>
-        <div class="modal-body">
-          <form>
-            <div class="row">
-              <div class="col-md-6 form-group">
-                <label for="idEmpleado" class="form-label"><strong>ID del Empleado</strong></label>
-                <input type="text" class="form-control form-control-sm" id="idEmpleado" required readonly>
+
+        <!-- Formulario para actualizar los datos -->
+        <form (ngSubmit)="actualizarEmpleado()">
+          <div class="form-row">
+            <!-- Columna izquierda -->
+            <div class="form-column">
+              <div class="form-group">
+                <label for="idEmpleado">ID del Empleado:</label>
+                <input type="text" class="form-control" id="idEmpleado" [(ngModel)]="empleado.identificacion"
+                  name="identificacion" required readonly>
               </div>
-              <div class="col-md-6 form-group">
-                <label for="nombreEmpleado" class="form-label"><strong>Nombre</strong></label>
-                <input type="text" class="form-control form-control-sm" id="nombreEmpleado" required>
+              <div class="form-group">
+                <label for="nombreEmpleado">Nombre:</label>
+                <input type="text" class="form-control" id="nombreEmpleado" [(ngModel)]="empleado.nombre" name="nombre"
+                  required readonly>
+              </div>
+              <div class="form-group">
+                <label for="rolEmpleado">Rol:</label>
+                <input type="text" class="form-control" id="rolEmpleado" [(ngModel)]="empleadoSeleccionado.rol"
+                  name="rol">
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-6 form-group">
-                <label for="rolEmpleado" class="form-label"><strong>Rol</strong></label>
-                <input type="text" class="form-control form-control-sm" id="rolEmpleado" required>
+            <!-- Columna derecha -->
+            <div class="form-column">
+
+              <div class="form-group">
+                <label for="activo">Activo:</label>
+                <select id="activo" class="form-control" [(ngModel)]="empleadoSeleccionado.activo" name="activo">
+                  <option value=true>Sí</option>
+                  <option value=false>No</option>
+                </select>
               </div>
-              <div class="col-md-6 form-group">
-                <label for="telefonoEmpleado" class="form-label"><strong>Teléfono</strong></label>
-                <input type="text" class="form-control form-control-sm" id="telefonoEmpleado" required>
+              <!-- Campo Fecha de Contratación -->
+              <div class="form-group">
+                <label for="fechaContratacion">Fecha de Contratación:</label>
+                <input type="date" class="form-control" id="fechaContratacion"
+                  [(ngModel)]="empleadoSeleccionado.fechaContratacion" name="fechaContratacion">
               </div>
             </div>
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-          </form>
-        </div>
+          </div>
+
+          <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary btn-lg">Actualizar</button>
+            <button type="button" class="btn btn-secondary btn-lg" (click)="cerrarModal()">Cancelar</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Modal o vista para mostrar el PDF -->
+<div *ngIf="mostrarReporte" class="modal fade show" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true" style="display: block;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Reporte de Asistencia</h5>
+        <button type="button" class="btn-close" (click)="mostrarReporte = false"></button>
+      </div>
+      <div class="modal-body">
+        <object *ngIf="pdfUrl" [data]="pdfUrl" type="application/pdf" width="100%" height="600px">
+          <p>Tu navegador no soporta el formato PDF. Por favor, descarga el archivo <a [href]="pdfUrl" download>aquí</a>.</p>
+        </object>
+      </div>
+    </div>
+  </div>
+</div>

@@ -18,6 +18,38 @@ export class GraficasComponent implements AfterViewInit {
     private asistenciaService: AsistenciasService
 
   ) { }
+  graficaActual: string = 'estadoPorEmpleado';
+  empleadoSeleccionado: any = null;
+  
+  mostrarGrafica(grafica: string) {
+    this.graficaActual = grafica;
+  }
+  
+  obtenerEmpleadoDesdeEvento(evento: any): any {
+    // Ejemplo de depuración
+    console.log('Evento recibido:', evento);
+    // Ajusta esta lógica para extraer correctamente el ID del empleado desde el evento
+    const empleadoId = evento?.data?.empleadoId; // Ejemplo
+    console.log('ID del empleado obtenido:', empleadoId);
+    return empleadoId;
+  }
+  
+  onBarClick(evento: any) {
+    const empleadoId = this.obtenerEmpleadoDesdeEvento(evento);
+    
+    if (empleadoId !== undefined) {
+      this.empleadoSeleccionado = this.asistenciasFusionadas.find(
+        (asistencia) => asistencia.empleado.id === empleadoId
+      );
+      
+      if (!this.empleadoSeleccionado) {
+        console.warn('Empleado no encontrado con ID:', empleadoId);
+      }
+    } else {
+      console.error('Error: ID de empleado no válido');
+    }
+  }
+  
 
   ngAfterViewInit() {
     this.obtenerReportes();

@@ -1,99 +1,292 @@
 /* Estilos para el contenedor principal que incluye el componente de inicio de sesión */
 .signin.cf {
-    margin: 0 auto; /* Centra el contenedor si es necesario */
-    width: 100%; /* Ajusta el ancho según sea necesario */
-    padding: 20px; /* Añade padding si es necesario */
-  }
-  
-  /* Estilos para el componente jumbotron */
-  .jumbotron {
-    position: relative; /* Cambia de fixed a relative si no deseas que esté siempre en la pantalla */
-    top: 10%; /* Mantener la posición vertical */
-    left: 10%; /* Centrar horizontalmente */
-    width: 70%;
-    margin: 0 auto; /* Centra el componente en el contenedor */
-    padding: 20px;
-    background:none; /* Gradiente lineal */
-    border-radius: 5px; /* Bordes redondeados */
-    box-shadow: inset 1px 1px 0 0 rgba(255,255,255,0.2), inset -1px -1px 0 0 rgba(0,0,0,0.2); /* Sombra */
-  }
-  
-  /* Estilos para las pastillas de navegación */
-  .nav-pills {
-    position: relative; /* Cambia de fixed a relative si no deseas que esté siempre en la pantalla */
-    display: flex;
-    flex-direction: column;
-    margin-left: 0; /* Elimina el margen izquierdo */
-    padding: 0; /* Elimina el padding si es necesario */
-    max-height: auto;
-    overflow-y: auto; /* Agrega un scrollbar si el contenido es mayor que el contenedor */
-    align-items: flex-start; /* Alinea las pastillas a la izquierda */
-  }
-  
-  /* Estilos para cada pastilla de navegación */
-  .nav-link {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    display: inline-flex; /* Utiliza flex para centrar el contenido */
-    align-items: center; /* Centra el contenido verticalmente */
-    justify-content: center; /* Centra el contenido horizontalmente */
-    width: 300px; /* Tamaño fijo para los botones */
-    padding: 10px; /* Ajusta el padding según sea necesario */
-    margin-bottom: 10px; /* Espacio entre las pastillas */
-    color: black;
-    background: linear-gradient(to bottom, #30497e, #77d6fc); /* Cambia los colores de acuerdo a tu preferencia */
-    text-align: center; /* Centra el texto */
-    border-radius: 5px; /* Bordes redondeados */
-    text-decoration: none; /* Elimina el subrayado del texto */
-  }
-  
-  
-  .nav-link:hover {
-    transform: translateY(-3px); /* Efecto de levantamiento al pasar el ratón */
-    color: black;
-    background:#30497e; /* Cambia los colores de acuerdo a tu preferencia */
-  }
-  
-  /* Estilos para la tabla dentro de jumbotron */
-  .jumbotron table {
-    width: 100%; /* La tabla ocupa todo el ancho del jumbotron */
-    max-height: 500px;
-    overflow-y: auto;
-    border: 1px solid #ddd; /* Bordes de la tabla */
-    padding: 8px; /* Espacio interno de la tabla */
-    margin-top: 20px; /* Espacio entre la tabla y el encabezado */
-    border-collapse: collapse; /* Colapsar los bordes de las celdas */
-  }
-  
-  .jumbotron th,
-  .jumbotron td {
-    border: 1px solid black; /* Bordes de las celdas */
-    padding: 8px; /* Espacio interno de las celdas */
-    text-align: left; /* Alinear el texto a la izquierda */
-  }
-  
-  .jumbotron th {
-    background-color: #71ee60; /* Color de fondo para el encabezado */
-  }
-  
-  .pdf-container {
-    position: fixed; /* Asegura que el contenedor esté fijo en la pantalla */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente para oscurecer la página */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999; /* Asegura que el contenedor esté sobre otros elementos */
-  }
-  
-  .pdf-container iframe {
-    border: none; /* Quita el borde del iframe */
-  }
-  
-  .pdf-container .btn-secondary {
-    margin-top: 20px; /* Espacio entre el iframe y el botón */
-  }
-  
+  margin: 0 auto; /* Centra el contenedor si es necesario */
+  width: 100%; /* Ajusta el ancho según sea necesario */
+  padding: 20px; /* Añade padding si es necesario */
+}
+
+.jumbotron {
+  position: relative;
+  top: 10%; /* Posición vertical */
+  left: 10%; /* Centrado horizontal */
+  width: 70%;
+  margin: 0 auto;
+  padding: 20px;
+  background: none; /* Fondo sin gradiente */
+  border-radius: 5px;
+  box-shadow: inset 1px 1px 0 0 rgba(255, 255, 255, 0.2), inset -1px -1px 0 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para las pastillas de navegación */
+.nav-pills {
+  position: relative; /* Cambia de fixed a relative si no deseas que esté siempre en la pantalla */
+  display: flex;
+  flex-direction: column;
+  margin-left: 0; /* Elimina el margen izquierdo */
+  padding: 0; /* Elimina el padding si es necesario */
+  max-height: auto;
+  overflow-y: auto; /* Agrega un scrollbar si el contenido es mayor que el contenedor */
+  align-items: flex-start; /* Alinea las pastillas a la izquierda */
+}
+
+/* Estilos para cada pastilla de navegación */
+.nav-link {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  display: inline-flex; /* Utiliza flex para centrar el contenido */
+  align-items: center; /* Centra el contenido verticalmente */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  width: 300px; /* Tamaño fijo para los botones */
+  padding: 10px; /* Ajusta el padding según sea necesario */
+  margin-bottom: 10px; /* Espacio entre las pastillas */
+  color: black;
+  background: linear-gradient(to bottom, #30497e, #77d6fc); /* Cambia los colores de acuerdo a tu preferencia */
+  text-align: center; /* Centra el texto */
+  border-radius: 5px; /* Bordes redondeados */
+  text-decoration: none; /* Elimina el subrayado del texto */
+}
+
+
+.nav-link:hover {
+  transform: translateY(-3px); /* Efecto de levantamiento al pasar el ratón */
+  color: black;
+  background:#30497e; /* Cambia los colores de acuerdo a tu preferencia */
+}
+
+/* Estilos para la tabla dentro de jumbotron */
+.jumbotron table {
+  width: 100%; /* La tabla ocupa todo el ancho del jumbotron */
+  max-height: 500px;
+  overflow-y: auto;
+  border: 1px solid #ddd; /* Bordes de la tabla */
+  padding: 8px; /* Espacio interno de la tabla */
+  margin-top: 20px; /* Espacio entre la tabla y el encabezado */
+  border-collapse: collapse; /* Colapsar los bordes de las celdas */
+}
+
+.jumbotron th,
+.jumbotron td {
+  border: 1px solid black; /* Bordes de las celdas */
+  padding: 8px; /* Espacio interno de las celdas */
+  text-align: left; /* Alinear el texto a la izquierda */
+}
+
+.jumbotron th {
+  background-color: #71ee60; /* Color de fondo para el encabezado */
+}
+
+.pdf-container {
+  position: fixed; /* Asegura que el contenedor esté fijo en la pantalla */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente para oscurecer la página */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* Asegura que el contenedor esté sobre otros elementos */
+}
+
+.pdf-container iframe {
+  border: none; /* Quita el borde del iframe */
+}
+
+.pdf-container .btn-secondary {
+  margin-top: 20px; /* Espacio entre el iframe y el botón */
+}
+
+/* Modal y contenedor */
+.modal-dialog-centered {
+display: flex;
+align-items: center;
+justify-content: center;
+max-width: 600px;  /* Limita el ancho del modal */
+margin: 0 auto;
+}
+
+/* Modal contenido */
+.modal-content {
+border-radius: 8px;
+border: 1px solid #ddd;
+background-color: #fff;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+padding: 20px;
+}
+
+/* Header del modal */
+.modal-header {
+border-bottom: 1px solid #ddd;
+padding-bottom: 15px;
+margin-bottom: 20px;
+}
+
+.modal-title {
+font-size: 1.25rem;
+font-weight: bold;
+color: #333;
+}
+
+/* Cerrar el botón */
+.btn-close {
+color: #999;
+font-size: 1.5rem;
+}
+
+/* Formulario */
+.form-row {
+display: flex;
+gap: 20px;
+margin-bottom: 15px;
+}
+
+/* Columnas del formulario */
+.form-column {
+flex: 1;
+}
+
+/* Estilo de los campos del formulario */
+.form-group {
+margin-bottom: 15px;
+}
+
+.form-group label {
+font-weight: 600;
+color: #333;
+margin-bottom: 5px;
+}
+
+.form-control {
+width: 100%;
+padding: 10px;
+font-size: 1rem;
+border-radius: 6px;
+border: 1px solid #ccc;
+box-sizing: border-box;
+}
+
+.form-control:focus {
+border-color: #007bff;
+box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+
+/* Estilo del checkbox */
+input[type="checkbox"] {
+transform: scale(1.2);
+margin-top: 5px;
+}
+
+/* Botones */
+.btn {
+padding: 10px 20px;
+font-size: 1rem;
+border-radius: 5px;
+border: none;
+cursor: pointer;
+}
+
+.btn-lg {
+font-size: 1.1rem;
+}
+
+.btn-primary {
+background-color: #007bff;
+color: white;
+}
+
+.btn-primary:hover {
+background-color: #0056b3;
+}
+
+.btn-secondary {
+background-color: #6c757d;
+color: white;
+}
+
+.btn-secondary:hover {
+background-color: #5a6268;
+}
+
+/* Alineación del formulario */
+.text-center {
+display: flex;
+justify-content: center;
+gap: 10px;
+}
+
+/* Mejoras adicionales para la accesibilidad */
+input[readonly], select[readonly] {
+background-color: #f1f1f1;
+}
+
+input[type="date"]:focus {
+border-color: #007bff;
+}
+/* Media Queries para pantallas más pequeñas */
+
+/* Pantallas de tablets y móviles */
+@media (max-width: 768px) {
+.jumbotron {
+  width: 90%; /* Ajusta el tamaño del jumbotron */
+  top: 5%; /* Ajusta la posición en pantallas más pequeñas */
+}
+
+.nav-pills {
+  flex-direction: row; /* Cambia la dirección de las pastillas de navegación */
+  justify-content: space-around; /* Espaciado entre los botones */
+}
+
+.nav-link {
+  width: 100%; /* Hace los botones más pequeños */
+  font-size: 0.9rem; /* Reduce el tamaño del texto */
+  margin-bottom: 5px; /* Menos espacio entre las pastillas */
+}
+
+.jumbotron table {
+  font-size: 0.9rem; /* Reduce el tamaño del texto en la tabla */
+}
+
+.form-row {
+  flex-direction: column; /* Mueve los campos del formulario a una columna */
+  gap: 10px;
+}
+
+.form-control {
+  font-size: 0.9rem; /* Reduce el tamaño de los campos de entrada */
+}
+
+.btn {
+  width: 100%; /* Botones más grandes y fáciles de tocar en móviles */
+}
+}
+
+/* Pantallas de móviles pequeños */
+@media (max-width: 480px) {
+.jumbotron {
+  width: 95%; /* Ajusta aún más el tamaño del jumbotron */
+}
+
+.nav-link {
+  width: 100%; /* Botones de navegación en pantallas pequeñas */
+  padding: 8px; /* Reduce el padding de los botones */
+}
+
+.pdf-container iframe {
+  width: 90%; /* Ajusta el tamaño del iframe en móviles */
+}
+
+.modal-content {
+  padding: 15px; /* Reduce el padding del modal */
+}
+
+.modal-header {
+  padding-bottom: 10px;
+}
+
+.form-control {
+  padding: 8px; /* Ajusta el tamaño de los inputs */
+}
+
+.btn {
+  font-size: 0.9rem; /* Ajuste en el tamaño de los botones */
+}}

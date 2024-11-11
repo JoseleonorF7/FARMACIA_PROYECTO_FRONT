@@ -18,7 +18,8 @@ export interface Asistencia {
   
   export interface AsistenciaFusionada {
     empleado: {
-      nombre: string;
+      id:number
+      nombre: string| null;
     };
     fecha: string;
     horaEntrada: string | null;
@@ -31,4 +32,15 @@ export interface Asistencia {
 
 
   }
+  // src/app/models/empleado.model.ts
+export interface Empleado {
+  id: number;
+  nombre: string;
+  identificacion: string;
+  fechaContratacion: string | null;
+  activo: boolean;
+  rol: string | null;
+  huellaDactilar: string;
+}
+
   
