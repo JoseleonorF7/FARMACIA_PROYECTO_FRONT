@@ -5,6 +5,7 @@
   padding: 20px; /* Añade padding si es necesario */
 }
 
+
 .jumbotron {
   position: relative;
   top: 10%; /* Posición vertical */
@@ -45,12 +46,6 @@
   text-decoration: none; /* Elimina el subrayado del texto */
 }
 
-
-.nav-link:hover {
-  transform: translateY(-3px); /* Efecto de levantamiento al pasar el ratón */
-  color: black;
-  background:#30497e; /* Cambia los colores de acuerdo a tu preferencia */
-}
 
 /* Estilos para la tabla dentro de jumbotron */
 .jumbotron table {
@@ -290,3 +285,254 @@ border-color: #007bff;
 .btn {
   font-size: 0.9rem; /* Ajuste en el tamaño de los botones */
 }}
+
+
+/* Tabla de horarios */
+.table-horarios table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table-horarios th,
+.table-horarios td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.table-horarios th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+
+/* Estilos del modal */
+.modal {
+  display: none; /* Asegurarse de que el modal esté oculto por defecto */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro con opacidad */
+  z-index: 1050; /* Asegurarse de que el modal esté por encima de otros elementos */
+  transition: opacity 0.3s ease;
+}
+
+/* Mostrar el modal */
+/* Mostrar el modal */
+.modal.d-block {
+  display: flex;
+  opacity: 1;
+}
+
+/* Contenedor del modal */
+.modal-dialog {
+  max-width: 50%;  /* Ajusta el ancho según lo necesario */
+  margin: auto;
+}
+/* Contenido del modal */
+.modal-content {
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* Gradiente suave */
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: modalFadeIn 0.4s ease-in-out;
+  padding: 20px;
+}
+
+/* Animación de desvanecimiento */
+@keyframes modalFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Cabecera del modal */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.close {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #ff5733; /* Color suave al pasar el cursor */
+}
+
+/* Cuerpo del modal */
+.modal-body {
+  padding: 15px 0;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  font-size: 1rem;
+  color: #555;
+  font-weight: 500;
+}
+
+input.form-control {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 1rem;
+  width: 100%;
+  transition: border-color 0.3s;
+}
+
+input.form-control:focus {
+  border-color: #4CAF50; /* Cambio de color al enfocar */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Botón de Guardar */
+.btn-primary {
+  background: linear-gradient(135deg, #4CAF50, #81C784); /* Gradiente verde */
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #388E3C, #66BB6A); /* Gradiente más oscuro al pasar el cursor */
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Estilos de la sombra y transición al cerrar */
+.modal-dialog-centered {
+  display: flex;
+  align-items: center;
+}
+
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: opacity 0.3s ease;
+}
+
+
+
+/* Panel Jumbotron para moverlo a la esquina */
+/* Estilo para el panel jumbotron */
+.panel-jumbotron {
+  background: linear-gradient(to bottom, #77d6fc,#30497e); /* Cambia los colores de acuerdo a tu preferencia */
+  position: fixed; /* Fijado en la pantalla */
+  top: 30%; /* Espacio desde el borde superior */
+  left: 20px; /* Espacio desde el borde izquierdo */
+  width: 300px; /* Ancho fijo para el jumbotron */
+  height: auto; /* Altura fija para el jumbotron */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombras para resaltar el panel */
+  border-radius: 10px; /* Bordes redondeados para el panel */
+  padding: 20px; /* Espaciado interno para los contenidos */
+}
+
+/* Estilo para el jumbotron interno */
+/* Estilo para el jumbotron interno */
+
+/* Alineación del título */
+.jumbotron2 h1 {
+  font-weight: bold;
+  font-size: 2rem;
+  margin-bottom: 20px; /* Espacio debajo del título */
+  color: #333;
+  text-align: center; /* Alineación centrada */
+}
+
+.jumbotron2 {
+  position: relative;
+  width: 100%; /* Asegura que el jumbotron ocupe el 100% del ancho del contenedor */
+  max-width: 800px; /* Máximo ancho de la caja */
+  margin: 0 auto; /* Centra el jumbotron */
+  padding: 30px; /* Espaciado interno para mayor confort */
+  background: none; /* Fondo transparente */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave para resaltar el panel */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+
+
+/* Estilo para el panel de usuario */
+.user-info {
+  display: flex;
+  justify-content: space-between; /* Alinea los elementos de la izquierda y derecha */
+  align-items: center;
+  width: 100%;
+  margin-bottom: 15px; /* Espacio entre el avatar y el botón */
+}
+
+.user-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-image: url('./usuario.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid #ccc;
+}
+
+.dropdown {
+  position: relative;
+  margin-left: auto; /* Empuja el menú hacia la derecha */
+  font-weight: bold;
+}
+
+.btn-light {
+  padding: 10px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  font-weight: bold;
+
+}
+
+.btn-danger {
+  background: linear-gradient(to bottom right, #f15252, #ff9999, #f15252);
+  color: black;
+  font-weight: bold;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+hr.my-4 {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid #ddd;
+  margin: 20px 0;
+}

@@ -25,9 +25,7 @@
             <th>Empleado</th>
             <th>Fecha</th>
             <th>Entrada</th>
-            <th>Salida</th>
             <th>Estado Entrada</th>
-            <th>Estado Salida</th>
           </tr>
         </thead>
         <tbody>
@@ -35,13 +33,10 @@
             <td>{{ asistencia.empleado.nombre }}</td>
             <td>{{ asistencia.fecha }}</td>
             <td>{{ asistencia.horaEntrada || 'No disponible' }}</td>
-            <td>{{ asistencia.horaSalida || 'No disponible' }}</td>
             <td [ngStyle]="{ 'background-color': getEstadoColor(asistencia.estadoEntrada || 'default') }">
               {{ asistencia.estadoEntrada || 'No disponible' }}
             </td>
-            <td [ngStyle]="{ 'background-color': getEstadoColor(asistencia.estadoSalida || 'default') }">
-              {{ asistencia.estadoSalida || 'No disponible' }}
-            </td>
+
           </tr>
         </tbody>
       </table>

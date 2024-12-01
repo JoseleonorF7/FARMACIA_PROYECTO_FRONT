@@ -1,23 +1,123 @@
-<!-- bienvenida.component.html -->
-<div class="jumbotron">
-  <h1 class="display-4">Bienvenido </h1>
-  <p class="lead">Nuestra plataforma está diseñada para facilitar la gestión de empleados y reportes de
-    asistencia en la farmacia. ¡Explora todas nuestras herramientas para mejorar tu negocio!</p>
-  <hr class="my-4">
+<div class="container-fluid">
 
-  <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-    <button class="nav-link" id="v-pills-reportes-tab" (click)="abrirReporte()">Reportes</button>
-    <button class="nav-link" id="v-pills-ventas-tab">"POR AÑADIR"</button>
-    <button class="nav-link" id="v-pills-actualizar-empleados-tab" (click)="modalEstado = true">Actualizar Datos de
-      Empleados</button>
-    <button class="nav-link" id="v-pills-empleados-tab">Actualizar Contraseña</button>
+  <div class="jumbotron">
+    <div class="d-flex align-items-center justify-content-between">
+      <!-- Información del usuario -->
+      <div class="d-flex align-items-center user-info">
+        <!-- Aquí iría el avatar y el nombre del usuario -->
+      </div>
+      <!-- Botón de cerrar sesión -->
+    </div>
+    <h1 class="display-4 mt-3">Bienvenido</h1>
+    <p class="lead">
+      Nuestra plataforma está diseñada para facilitar la gestión de empleados y reportes de asistencia en la farmacia.
+      ¡Explora todas nuestras herramientas para mejorar tu negocio!
+    </p>
 
+    <!-- Sección de reportes -->
+    <h3>Generar Reportes</h3>
+    <!-- Botón para mostrar el modal -->
+    <button class="btn btn-info mt-3" (click)="toggleFormularioReporte()">Generar Reporte</button>
+
+    <div class="row align-items-center mb-3">
+  <!-- Checkbox para activar reporte automático -->
+  <div class="col-md-4 d-flex align-items-center">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="reporteAutomatico"
+        [(ngModel)]="reporteAutomatico"
+        (change)="toggleReporteAutomatico()"
+      />
+      <label class="form-check-label ms-2" for="reporteAutomatico">
+        Activar reporte automático
+      </label>
+    </div>
+  </div>
+
+  <!-- Combo box para seleccionar la frecuencia (visible solo si está activado el checkbox) -->
+  <div class="col-md-4" *ngIf="reporteAutomatico">
+    <label class="form-label me-2">Frecuencia:</label>
+    <select
+      class="form-select"
+      [(ngModel)]="frecuenciaReporte"
+      (change)="agendarEnvioReporte()"
+    >
+      <option value="">Selecciona</option>
+      <option value="mensual">Mensual</option>
+      <option value="quincenal">Quincenal</option>
+    </select>
+  </div>
+
+  <!-- Mostrar el tiempo restante (visible solo si está activado el checkbox) -->
+  <div class="col-md-4" *ngIf="reporteAutomatico">
+    <label class="form-label">Tiempo restante:</label>
+    <p class="mb-0">{{ tiempoRestante || 'Selecciona una frecuencia' }}</p>
   </div>
 </div>
 
-<!-- actualizar-empleados.component.html -->
-<!-- Modal -->
-<!-- Modal para actualizar empleados -->
+
+    
+    <!-- Modal de generación de reportes -->
+    <div *ngIf="formularioVisible" class="modal fade show" tabindex="-1" aria-labelledby="generarReporteLabel" aria-hidden="true" style="display: block;">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="generarReporteLabel">Generar Reporte</h5>
+            <button type="button" class="btn-close" (click)="toggleFormularioReporte()"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Formulario de selección de reporte -->
+            <form>
+              <!-- Selección de tipo de reporte -->
+              <div class="mb-3">
+                <label for="reporteTipo" class="form-label">Selecciona el tipo de reporte</label>
+                <select class="form-select" id="reporteTipo" [(ngModel)]="reporteTipo" name="reporteTipo" (change)="onTipoReporteChange()">
+                  <option value="empleadosTodos">Información General de Todos los Empleados (Mes)</option>
+                  <option value="empleadoIndividual">Reporte de un Empleado Específico (Mes)</option>
+                  <option value="empleadoFecha">Reporte de un Empleado (Fecha Específica)</option>
+                  <option value="comparativoAsistencia">Comparativa de Asistencia (Todos los Empleados)</option>
+                </select>
+              </div>
+            
+              <!-- Fecha específica -->
+              <div class="mb-3" *ngIf="mostrarFechaCompleta">
+                <label for="fechaEspecifica" class="form-label">Selecciona una Fecha</label>
+                <input type="date" class="form-control" id="fechaEspecifica" [(ngModel)]="fechaEspecifica" name="fechaEspecifica">
+              </div>
+            
+              <!-- Mes y Año -->
+              <div class="mb-3" *ngIf="!mostrarFechaCompleta">
+                <label for="mesAno" class="form-label">Selecciona un Mes y Año</label>
+                <input type="month" class="form-control" id="mesAno" [(ngModel)]="mesAno" name="mesAno">
+              </div>
+            
+              <!-- Selección de empleado -->
+              <div class="mb-3" *ngIf="mostrarEmpleadoSelect">
+                <label for="empleado" class="form-label">Selecciona un Empleado</label>
+                <select class="form-select" id="empleado" [(ngModel)]="empleadoSeleccionado" name="empleadoSeleccionado">
+                  <option [ngValue]="null" disabled hidden>Seleccione un empleado</option>
+                  <option *ngFor="let empleado of empleadosFiltrados" [ngValue]="empleado">{{ empleado.nombre }}</option>
+                </select>
+              </div>
+            
+              <div class="form-group text-center">
+                <button type="button" class="btn btn-primary" (click)="abrirReporte()">Generar Reporte</button>
+              </div>
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+  
+
+  
+ 
 <!-- Modal para actualizar empleados -->
 <div *ngIf="modalEstado" class="modal fade show" tabindex="-1" aria-labelledby="actualizarDatosLabel" aria-hidden="true"
   style="display: block;">
@@ -74,7 +174,38 @@
                 <input type="date" class="form-control" id="fechaContratacion"
                   [(ngModel)]="empleadoSeleccionado.fechaContratacion" name="fechaContratacion">
               </div>
+
+                <!-- Horarios Disponibles -->
+      <div class="form-group table-horarios">
+        <label>Horarios Disponibles:</label>
+        <table>
+          <thead>
+            <tr>
+              <th>Seleccionar</th>
+              <th>Nombre</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let horario of horarios">
+              <td>
+                <input 
+                  type="radio" 
+                  [value]="horario.id" 
+                  [(ngModel)]="empleadoSeleccionado.horario.id" 
+                  name="horarioSeleccionado"
+                />
+              </td>
+              <td>{{ horario.nombre }}</td>
+              <td>{{ horario.detalle }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
             </div>
+            
           </div>
 
           <div class="form-group text-center">
@@ -87,9 +218,10 @@
   </div>
 </div>
 
+
 <!-- Modal o vista para mostrar el PDF -->
 <div *ngIf="mostrarReporte" class="modal fade show" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true" style="display: block;">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg" style="max-width: 90%; margin: auto;">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Reporte de Asistencia</h5>
@@ -99,6 +231,157 @@
         <object *ngIf="pdfUrl" [data]="pdfUrl" type="application/pdf" width="100%" height="600px">
           <p>Tu navegador no soporta el formato PDF. Por favor, descarga el archivo <a [href]="pdfUrl" download>aquí</a>.</p>
         </object>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="panel-jumbotron">
+  <div class="jumbotron2">
+    <h1 class="display-4">Bienvenido {{ studentInfo?.nombreCompleto || 'Usuario' }} ({{studentInfo?.rol}}) </h1>
+    <hr class="my-4">
+
+    <div class="d-flex justify-content-between align-items-center user-info w-100">
+
+      <div class="user-avatar"></div>
+      <div class="dropdown">
+        <button class="btn btn-light dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Opciones
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton">
+          <li *ngIf="getRole() === 'admin'">
+            <button class="dropdown-item" (click)="modalEstado = true">
+              <i class="fas fa-user-cog me-2"></i>Actualizar Datos de Empleados
+            </button>
+          </li>
+          <li *ngIf="getRole() === 'admin'">
+            <button class="dropdown-item" (click)="abrirModalActualizarContra()">
+              <i class="fas fa-key me-2"></i>Actualizar Contraseña
+            </button>
+          </li>
+          <li *ngIf="getRole() === 'admin'">
+            <button class="dropdown-item" (click)="abrirModalAgregarUsuario()">
+              <i class="fas fa-user-plus me-2"></i>Agregar Usuario
+            </button>
+          </li>
+          
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <button class="dropdown-item text-danger" (click)="logout()">
+              <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+            </button>
+          </li>
+        </ul>
+        
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+  
+
+<!-- Modal para actualizar contraseña -->
+<div class="modal" tabindex="-1" [ngClass]="{'d-block': modalVisible}" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document"> <!-- modal-sm añadido para un tamaño más pequeño -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Actualizar Contraseña</h5>
+        <button type="button" class="close" (click)="cerrarModalActualizarContra()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="actualizarContrasena()">
+          <div class="form-group">
+            <label for="nuevaContrasena">Nueva Contraseña</label>
+            <input
+              type="password"
+              id="nuevaContrasena"
+              class="form-control"
+              [(ngModel)]="nuevaContrasena"
+              name="nuevaContrasena"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="confirmarContrasena">Confirmar Contraseña</label>
+            <input
+              type="password"
+              id="confirmarContrasena"
+              class="form-control"
+              [(ngModel)]="confirmarContrasena"
+              name="confirmarContrasena"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary" [disabled]="!nuevaContrasena || !confirmarContrasena">Guardar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para Agregar Usuario -->
+<!-- Modal para Agregar Usuario -->
+<div *ngIf="modalAgregarUsuarioVisible" class="modal fade show" tabindex="-1" aria-labelledby="agregarUsuarioLabel" aria-hidden="true" style="display: block;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="agregarUsuarioLabel">Agregar Nuevo Usuario</h5>
+        <button type="button" class="btn-close" (click)="cerrarModalAgregarUsuario()"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Mensaje de error -->
+        <div *ngIf="mensajeError" class="alert alert-danger">
+          {{ mensajeError }}
+        </div>
+
+        <!-- Mensaje de éxito -->
+        <div *ngIf="mensajeExito" class="alert alert-success">
+          {{ mensajeExito }}
+        </div>
+
+        <form #form="ngForm" (ngSubmit)="agregarUsuario(form)">
+          <div class="mb-3">
+            <label for="nombreUsuario" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombreUsuario" [(ngModel)]="nuevoUsuario.nombreCompleto" name="nombre" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="correoElectronico" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" id="correoElectronico" [(ngModel)]="nuevoUsuario.correoElectronico" name="correo" required>
+            <small class="text-muted">Asegúrate de ingresar un correo electrónico válido y en funcionamiento.</small>
+          </div>
+
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" [(ngModel)]="nuevoUsuario.username" name="username" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="password" [(ngModel)]="nuevoUsuario.password" name="password" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="rol" class="form-label">Rol</label>
+            <select class="form-select" id="rol" [(ngModel)]="nuevoUsuario.rol" name="rol" required>
+              <option value="admin">Administrador</option>
+              <option value="usuario">Usuario</option>
+            </select>
+          </div>
+
+          <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary btn-lg">Agregar Usuario</button>
+            <button type="button" class="btn btn-secondary btn-lg" (click)="cerrarModalAgregarUsuario()">Cancelar</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

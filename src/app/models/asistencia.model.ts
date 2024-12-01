@@ -33,14 +33,24 @@ export interface Asistencia {
 
   }
   // src/app/models/empleado.model.ts
-export interface Empleado {
-  id: number;
-  nombre: string;
-  identificacion: string;
-  fechaContratacion: string | null;
-  activo: boolean;
-  rol: string | null;
-  huellaDactilar: string;
-}
+  export interface Empleado {
+    id: number; // ID del empleado
+    nombre: string; // Nombre completo del empleado
+    identificacion: string; // Identificación del empleado
+    fechaContratacion: string | null; // Fecha de contratación, puede ser nula
+    activo: boolean; // Estado de actividad
+    rol: string | null; // Rol del empleado, puede ser nulo
+    huellaDactilar: string; // ID de huella dactilar
+    horario: { // Información del horario asignado
+      id: number | null; // ID del horario
+      descripcion: string; // Descripción completa del horario
+      horaInicio1: string | null; // Hora de inicio del primer turno
+      horaFin1: string | null; // Hora de fin del primer turno
+      horaInicio2: string | null; // Hora de inicio del segundo turno, opcional
+      horaFin2: string | null; // Hora de fin del segundo turno, opcional
+    };
+    turnoProgramado: string | null; // Turno específico programado, puede ser nulo
+  }
+  
 
   

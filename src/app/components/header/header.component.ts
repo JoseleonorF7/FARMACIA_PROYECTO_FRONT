@@ -22,9 +22,11 @@ export class HeaderComponent implements OnInit {
       }
     });
 
-  
   }
-
+  // Método para obtener el rol desde localStorage
+  getRole(): string {
+    return localStorage.getItem('role') || '';  // Devuelve el rol almacenado o una cadena vacía si no existe
+  }
     selectNavItem(navItem: string): void {
         this.selectedNavItem = navItem;
     }

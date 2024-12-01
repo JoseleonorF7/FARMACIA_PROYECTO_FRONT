@@ -1,23 +1,39 @@
 /* Estilo general para el contenedor principal del LoginsComponent */
 
 
+/* Estilo general para el contenedor principal */
 .logins-container {
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: space-between; /* Asegura que los componentes estén separados */
-  align-items: flex-start; /* Alinea los componentes al inicio verticalmente */
+  justify-content: center; /* Centrado de todo el contenido */
+  align-items: center;
   background: linear-gradient(to bottom, #f0f0f0, #ffffff);
-  overflow: hidden;
-  padding: 20px; /* Añadir padding para separar los elementos del borde */
+  padding: 20px;
   box-sizing: border-box;
 }
 
-  
+  /* Círculo de carga */
+.loading-spinner {
+  border: 3px solid #f3f3f3; /* Gris claro */
+  border-top: 3px solid #3498db; /* Azul */
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+}
+
+/* Animación del círculo de carga */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
   .signin {
     position: absolute; /* Mantener la posición absoluta */
     top: 45%; /* Mantener la posición vertical */
-    left: 10%; /* Centrar horizontalmente */
+    left: 45%; /* Centrar horizontalmente */
     transform: translate(-50%, -50%); /* Ajustar el centro */
     display: block;
     width: 250px;
@@ -89,11 +105,7 @@
     outline: none;
     border-radius: 5px;
   }
-  
-  .signin-submit:hover {
-    background: linear-gradient(to bottom, #307e3a, #77fc77);
-  }
-  
+
   input[type="checkbox"] {
     display: none;
   }
@@ -383,3 +395,15 @@
   }
   
   
+
+  .app-container {
+    min-height: 100vh; /* Altura mínima de toda la vista */
+    background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), 
+                url('farmacia.jpg') no-repeat center center fixed; /* Imagen con capa semi-transparente */
+    background-size: cover; /* Escala la imagen */
+    display: flex; /* Centrado opcional */
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
+}
+
+

@@ -23,7 +23,7 @@ export class ReportesComponent {
   constructor(
     private registroAsistenciasService: RegistroAsistenciasService,
     private asistenciaService: AsistenciasService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.obtenerReportes();
@@ -36,12 +36,13 @@ export class ReportesComponent {
 
       this.asistenciasFusionadas = this.asistenciaService.getMergedAsistencias(asistencias);
 
+      console.log(this.asistenciasFusionadas)
       const asistenciasAgrupadas = this.asistenciasFusionadas.reduce((acc: any, asistencia: any) => {
         const idEmpleado = asistencia.empleado.identificacion;
         if (!acc[idEmpleado]) {
-          acc[idEmpleado] = { 
-            empleado: asistencia.empleado, 
-            asistencias: [] 
+          acc[idEmpleado] = {
+            empleado: asistencia.empleado,
+            asistencias: []
           };
         }
         acc[idEmpleado].asistencias.push(asistencia);
@@ -98,8 +99,44 @@ export class ReportesComponent {
   }
 
   abrirModal(reporte: any): void {
-    this.empleadoSeleccionado = reporte;
+    this.empleadoSeleccionado = {
+      ...reporte,
+      asistenciasPorMes: this.agruparAsistenciasPorMes(reporte.asistencias)
+    };
   }
+
+  // Función para agrupar las asistencias por mes
+  // Función para agrupar las asistencias por mes
+  agruparAsistenciasPorMes(asistencias: Asistencia[]): { mes: string, asistencias: Asistencia[] }[] {
+    // Normalizar las fechas y agrupar por mes
+    const asistenciasPorMes = asistencias.reduce((acc: any, asistencia: Asistencia) => {
+      // Crear una fecha desde el string y asegurarse de normalizar
+      const fecha = new Date(asistencia.fecha);
+
+      // Asegurarse de usar la fecha exacta
+      const mes = fecha.getUTCMonth(); // Mes en base 0 (enero = 0)
+      const anio = fecha.getUTCFullYear();
+
+      // Crear clave única para mes y año
+      const mesAnio = `${new Date(anio, mes, 1).toLocaleString('default', { month: 'long' })} ${anio}`;
+
+      // Agregar al grupo correspondiente
+      if (!acc[mesAnio]) {
+        acc[mesAnio] = [];
+      }
+      acc[mesAnio].push(asistencia);
+
+      return acc;
+    }, {});
+
+    // Transformar los datos agrupados en un arreglo de objetos
+    return Object.keys(asistenciasPorMes).map(mes => ({
+      mes,
+      asistencias: asistenciasPorMes[mes]
+    }));
+  }
+
+
 
   cerrarModal(): void {
     this.empleadoSeleccionado = null;

@@ -9,23 +9,19 @@ import { InformacionInicioComponent } from './components/PRINCIPAL/informacion-i
 import { RegistroAsistenciaComponent } from './components/registro-asistencia/registro-asistencia.component';
 
 const routes: Routes = [
-  { path: 'header', component: HeaderComponent},
-  { path: 'informacionInicio', component: InformacionInicioComponent},
-  { path: 'reportes', component: ReportesComponent},
-  { path: 'registros', component : RegistrosComponent},
-  { path: 'graficas', component : GraficasComponent},
-  { path:'registroAsistencia',component: RegistroAsistenciaComponent},
-  { path: 'login', component : LoginComponent,
-  children: 
-  [
-    { path: '', redirectTo: 'informacionInicio', pathMatch: 'full' }, // Redirecciona a 'opciones' por defecto
-    { path: 'informacionInicio', component: InformacionInicioComponent },
-
-  ]},
-  
-  { path: '', redirectTo: '/login', pathMatch: 'full' } // Redirige al componente de inicio de sesión por defecto
+  { path: 'login', component: LoginComponent },
+  {
+    path: 'header', component: HeaderComponent, children: [
+      { path: 'informacionInicio', component: InformacionInicioComponent },
+      { path: 'reportes', component: ReportesComponent },
+      { path: 'registros', component: RegistrosComponent },
+      { path: 'graficas', component: GraficasComponent },
+      { path: 'registroAsistencia', component: RegistroAsistenciaComponent },
+      { path: '', redirectTo: 'informacionInicio', pathMatch: 'full' } // Ruta por defecto cuando entra en /header
+    ]
+  },
+  { path: '', redirectTo: '/login', pathMatch: 'full' } // Redirige al login por defecto
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

@@ -3,63 +3,46 @@
     <h2>Registro de Empleados</h2>
     <form class="empleado-form" (ngSubmit)="onSubmit()">
       <div class="form-row">
+        
         <!-- Columna izquierda -->
         <div class="form-column">
-          <!-- Campo Nombre -->
           <div class="form-group">
-            <label for="nombre">Nombre Completo:</label>
-            <input
-              type="text"
-              id="nombre"
-              [(ngModel)]="empleado.nombre"
-              name="nombre"
-              placeholder="Nombre del empleado"
-              required
-            />
+            <label for="primerNombre">Primer Nombre:</label>
+            <input type="text" id="primerNombre" [(ngModel)]="empleado.primerNombre" name="primerNombre" placeholder="Primer Nombre" required />
           </div>
 
-          <!-- Campo Fecha de Contratación -->
           <div class="form-group">
-            <label for="fechaContratacion">Fecha de Contratación:</label>
-            <input
-              type="date"
-              id="fechaContratacion"
-              [(ngModel)]="empleado.fechaContratacion"
-              name="fechaContratacion"
-              required
-            />
+            <label for="segundoNombre">Segundo Nombre:</label>
+            <input type="text" id="segundoNombre" [(ngModel)]="empleado.segundoNombre" name="segundoNombre" placeholder="Segundo Nombre" />
           </div>
-
-          <!-- Campo Rol -->
           <div class="form-group">
-            <label for="rol">Rol:</label>
-            <input
-              type="text"
-              id="rol"
-              [(ngModel)]="empleado.rol"
-              name="rol"
-              placeholder="Rol del empleado"
-              required
-            />
+            <label for="primerApellido">Primer Apellido:</label>
+            <input type="text" id="primerApellido" [(ngModel)]="empleado.primerApellido" name="primerApellido" placeholder="Primer Apellido" required />
+          </div>
+          <div class="form-group">
+            <label for="segundoApellido">Segundo Apellido:</label>
+            <input type="text" id="segundoApellido" [(ngModel)]="empleado.segundoApellido" name="segundoApellido" placeholder="Segundo Apellido" />
           </div>
         </div>
 
-        <!-- Columna derecha -->
+        <!-- Columna central -->
         <div class="form-column">
-          <!-- Campo Identificación -->
           <div class="form-group">
-            <label for="identificacion">Identificación:</label>
-            <input
-              type="text"
-              id="identificacion"
-              [(ngModel)]="empleado.identificacion"
-              name="identificacion"
-              placeholder="ID del empleado"
-              required
-            />
+            <label for="fechaContratacion">Fecha de Contratación:</label>
+            <input type="date" id="fechaContratacion" [(ngModel)]="empleado.fechaContratacion" name="fechaContratacion" required />
+          </div>
+          <div class="form-group">
+            <label for="rol">Rol:</label>
+            <select id="rol" [(ngModel)]="empleado.rol" name="rol" class="form-control" required>
+              <option [value]="'VENDEDOR(A)'">VENDEDOR(A)</option>
+              <option [value]="'DOMICILIARIO'">DOMICILIARIO</option>
+            </select>
           </div>
 
-          <!-- Campo Activo (combo box) -->
+          <div class="form-group">
+            <label for="identificacion">Identificación:</label>
+            <input type="text" id="identificacion" [(ngModel)]="empleado.identificacion" name="identificacion" placeholder="ID del empleado" required />
+          </div>
           <div class="form-group">
             <label for="activo">Activo:</label>
             <select id="activo" [(ngModel)]="empleado.activoStr" name="activo" required>
@@ -67,17 +50,14 @@
               <option value="No">No</option>
             </select>
           </div>
+        </div>
 
-          <!-- Campo Huella Digital con botón de actualización -->
+        <!-- Columna derecha -->
+        <div class="form-column">
           <div class="form-group">
             <label for="huellaDactilar">Huella Digital:</label>
             <div class="huella-select">
-              <select
-                id="huellaDactilar"
-                [(ngModel)]="empleado.huellaDactilar"
-                name="huellaDactilar"
-                required
-              >
+              <select id="huellaDactilar" [(ngModel)]="empleado.huellaDactilar" name="huellaDactilar" required>
                 <option *ngFor="let huella of huellas" [value]="huella">{{ huella }}</option>
               </select>
               <button type="button" (click)="onRefresh()" class="btn-icon" title="Actualizar Huellas">
@@ -85,11 +65,41 @@
               </button>
             </div>
           </div>
+          
+          <div class="form-group table-horarios">
+            <label>Horarios Disponibles:</label>
+            <table>
+              <thead>
+                <tr>
+                  <th>Seleccionar</th>
+                  <th>Nombre</th>
+                  <th>Detalle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let horario of horarios">
+                  <td>
+                    <input 
+                      type="radio" 
+                      [value]="horario.id" 
+                      [(ngModel)]="empleado.horarioSeleccionado" 
+                      name="horarioSeleccionado"
+                    />
+                  </td>
+                  <td>{{ horario.nombre }}</td>
+                  <td>{{ horario.detalle }}</td>
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       <!-- Botón para enviar el formulario -->
-      <button type="submit" class="submit-btn">Registrar Empleado</button>
+      <div class="form-group form-submit">
+        <button type="submit" class="submit-btn">Registrar Empleado</button>
+      </div>
     </form>
   </div>
 </div>

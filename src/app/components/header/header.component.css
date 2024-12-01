@@ -47,10 +47,6 @@ header {
   border-radius: 100px;
 }
 
-.nav-link:hover {
-  background: #30497e;
-  border-radius: 100px;
-}
 
 .nav-link.active {
   background: #30497e;

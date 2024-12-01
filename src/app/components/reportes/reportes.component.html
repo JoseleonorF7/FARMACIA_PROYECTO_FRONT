@@ -47,37 +47,37 @@
     </div>
 
     <!-- Tabla de asistencias del empleado -->
-    <h3 class="modal-subtitulo">Registros de Asistencia:</h3>
-    <div class="tabla-container">
-      <table class="tabla-asistencias">
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Estado Entrada</th>
-            <th>Estado Salida</th>
-            <th>Diferencia Tiempo Entrada</th>
-            <th>Diferencia Tiempo Salida</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let asistencia of empleadoSeleccionado.asistencias">
-            <td>{{ asistencia.fecha }}</td>
-            <td [ngStyle]="{ 'background-color': getEstadoColor(asistencia.estadoEntrada || 'default') }">
-              {{ asistencia.estadoEntrada || 'No disponible' }}
-            </td>
-            <td [ngStyle]="{ 'background-color': getEstadoColor(asistencia.estadoSalida || 'default') }">
-              {{ asistencia.estadoSalida || 'No disponible' }}
-            </td>
-            <td [ngStyle]="{ 'background': getEstadoGradient(asistencia.diferenciaTiempoEntrada) }">
-              {{ asistencia.diferenciaTiempoEntrada || 'No disponible' }}
-            </td>
-            <td [ngStyle]="{ 'background': getEstadoGradient(asistencia.diferenciaTiempoSalida) }">
-              {{ asistencia.diferenciaTiempoSalida || 'No disponible' }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <!-- Tabla de asistencias del empleado agrupada por mes -->
+<h3 class="modal-subtitulo">Registros de Asistencia:</h3>
+<div *ngFor="let mesData of empleadoSeleccionado.asistenciasPorMes">
+  <h3 class="mes-titulo">Mes: {{ mesData.mes }}</h3>
+
+  <div class="tabla-container">
+    <table class="tabla-asistencias">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Horario</th>
+          <th>Estado Entrada</th>
+          <th>Diferencia Tiempo Entrada</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let asistencia of mesData.asistencias">
+          <td>{{ asistencia.fecha }}</td>
+          <td>{{ asistencia.empleado.horario.descripcion }}</td>
+          <td [ngStyle]="{ 'background-color': getEstadoColor(asistencia.estadoEntrada || 'default') }">
+            {{ asistencia.estadoEntrada || 'No disponible' }}
+          </td>
+          <td [ngStyle]="{ 'background': getEstadoGradient(asistencia.diferenciaTiempoEntrada) }">
+            {{ asistencia.diferenciaTiempoEntrada || 'No disponible' }}
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
     <button class="modal-boton-cerrar" (click)="cerrarModal()">Cerrar</button>
   </div>
