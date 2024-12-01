@@ -18,7 +18,11 @@
       </div>
       <input type="checkbox" name="remember" id="remember" [(ngModel)]="rememberMe" />
       <label class="radio" for="remember">Stay Logged In</label>
-      <button type="button" class="signin-submit" (click)="login()">Login</button>
+<!-- Botón de Login con barra de carga -->
+<button type="button" class="signin-submit" (click)="login()" [disabled]="isLoading">
+  <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 
+  Login
+</button>
       <button type="button" class="signin-submit" (click)="openRecoveryModal()">Olvidé mi contraseña</button>
     </form>
   </div>

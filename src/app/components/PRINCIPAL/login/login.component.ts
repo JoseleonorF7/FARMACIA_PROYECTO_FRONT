@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
         if (error && error.error && error.error.message) {
           this.validationMessage = error.error.message; // Captura el mensaje del backend
         } else {
-          this.validationMessage = 'Hubo un problema con el inicio de sesión. Por favor, intente de nuevo más tarde.';  // Mensaje predeterminado
+          this.validationMessage = 'Hubo un problema con el inicio de sesión. Por favor, intente de nuevo en unos minutos.';  // Mensaje predeterminado
         }
       }
     );
@@ -214,6 +214,7 @@ export class LoginComponent implements OnInit {
     this.loginService.logout();
     this.username = '';
     this.password = '';
+    
 
   }
 

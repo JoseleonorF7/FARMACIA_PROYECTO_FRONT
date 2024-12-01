@@ -536,3 +536,20 @@ hr.my-4 {
   border-top: 1px solid #ddd;
   margin: 20px 0;
 }
+
+ /* Círculo de carga */
+ .loading-spinner {
+  border: 3px solid #f3f3f3; /* Gris claro */
+  border-top: 3px solid #3498db; /* Azul */
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+}
+
+/* Animación del círculo de carga */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

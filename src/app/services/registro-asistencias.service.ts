@@ -1,4 +1,3 @@
-// registro-asistencias.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -32,13 +31,12 @@ interface Response<T> {
   status: string;
 }
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RegistroAsistenciasService {
-
-  private apiUrl = 'http://localhost:8080/asistencia/todas'; // Cambia la URL según tu configuración
+  private baseUrl = 'https://farmacia-proyecto-backend.onrender.com'; // URL raíz del backend
+  private apiUrl = `${this.baseUrl}/asistencia/todas`;
 
   constructor(private http: HttpClient) {}
 

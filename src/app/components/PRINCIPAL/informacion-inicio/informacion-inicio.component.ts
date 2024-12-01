@@ -23,6 +23,8 @@ export class InformacionInicioComponent implements OnInit {
   empleado: Empleado = {} as Empleado;  // Objeto para el formulario
   mostrarFechaCompleta = false;
   mostrarEmpleadoSelect = false;
+  isLoading: boolean = false;  // Nueva variable para controlar la carga
+
   horarios = [
     {
       nombre: 'Horario 1',
@@ -73,7 +75,7 @@ export class InformacionInicioComponent implements OnInit {
   reporteAutomatico: boolean = false;
   frecuenciaReporte: string = 'Seccionar Tipo';  // Puede ser 'mensual' o 'quincenal'
   frecuenciaSeleccionada: boolean = false;  // Para controlar si ya se seleccionó la frecuencia
-  tiempoRestante: String='';  // Tiempo de cuenta regresiva
+  tiempoRestante: String = '';  // Tiempo de cuenta regresiva
 
   private intervalo: any;
   // Método para enviar la información sobre el reporte automático
@@ -86,9 +88,11 @@ export class InformacionInicioComponent implements OnInit {
     this.obtenerEmpleados();
     const userId = localStorage.getItem('usuarioId');
 
+    console.log(userId)
     if (userId) {
       this.loginService.getStudentInfo(userId).subscribe(
         (response) => {
+          console.log(response)
           // Aquí estamos asignando solo el 'data' del response a la variable studentInfo
           this.studentInfo = response;
         },
@@ -121,11 +125,11 @@ export class InformacionInicioComponent implements OnInit {
   // Método para iniciar actualizaciones periódicas
   startPeriodicUpdates(): void {
     this.intervalo = setInterval(() => {
-this.agendarEnvioReporte();
+      this.agendarEnvioReporte();
     }, 1000); // Actualiza cada 30 segundos (30000 ms)
   }
 
-// Cuando cambia el estado del checkbox
+  // Cuando cambia el estado del checkbox
   toggleReporteAutomatico() {
     if (!this.reporteAutomatico) {
       // Si el checkbox se deselecciona, cancelar el envío
@@ -155,15 +159,15 @@ this.agendarEnvioReporte();
       );
     }
   }
-  
+
   // Cancelar el envío del reporte
   cancelarEnvioReporte() {
     this.tiempoRestante = ''; // Ocultar el mensaje del tiempo restante
     this.informacionInicioService.cancelarEnvioReporte().subscribe(
-      (response:any) => {
+      (response: any) => {
         console.log('Reporte cancelado:', response);
       },
-      (error:any) => {
+      (error: any) => {
         console.error('Error al cancelar el reporte:', error);
       }
     );
@@ -234,75 +238,109 @@ this.agendarEnvioReporte();
     const mesAno = (document.getElementById("mesAno") as HTMLInputElement)?.value || null;
     const empleadoSeleccionado = this.empleadoSeleccionado; // Asegúrate de que este valor esté enlazado con [(ngModel)]
 
+    console.log("Tipo de reporte seleccionado:", reporteTipo);
+    console.log("Fecha específica ingresada:", fechaEspecifica);
+    console.log("Mes y año ingresados:", mesAno);
+    console.log("Empleado seleccionado:", empleadoSeleccionado);
+
     // Validar que se haya seleccionado un tipo de reporte
     if (!reporteTipo) {
       alert('Por favor selecciona un tipo de reporte.');
+      console.error("Error: Tipo de reporte no seleccionado.");
       return;
     }
 
-    // Validar que la fecha o el mes/año sean válidos según el tipo de reporte
     let fecha: Date | null = null;
-    if (fechaEspecifica) {
-      // Asegúrate de crear la fecha de forma consistente con el formato YYYY-MM-DD
-      fecha = new Date(fechaEspecifica);
-    } else if (mesAno) {
-      // Si es mes/año, formatea el mes/año a YYYY-MM-01 para crear el primer día del mes
-      fecha = new Date(mesAno + "-01");
-    }
 
-    if (!fecha) {
-      alert('Por favor selecciona una fecha válida.');
-      return;
-    }
 
-    // Evitar que la zona horaria afecte la fecha, estableciendo la hora a 00:00:00 UTC
-    fecha.setUTCHours(0, 0, 0, 0);
+    
+    // Validar mes y año para reportes que lo necesiten
+const [ano, mes] = (mesAno ?? "").split("-");
+      console.log("Año ingresado:", ano, "Mes ingresado:", mes);
 
-    const mes = fecha.getMonth() + 2;  // Mes (1-12)
-    const ano = fecha.getFullYear();  // Año
+      // Convert to numbers
+      const mesNum = Number(mes);
+      const anoNum = Number(ano);
 
-    // Manejar cada tipo de reporte
-    switch (reporteTipo) {
-      case 'empleadosTodos':
-        this.informacionInicioService.getReporteMensualPdf(mes, ano).subscribe(
-          (pdfBlob: Blob) => this.generarPdf(pdfBlob),
-          (error) => this.manejarError(error) // Manejar el error aquí
-        );
-        break;
-      case 'empleadoIndividual':
-        if (!empleadoSeleccionado) {
-          alert('Por favor selecciona un empleado válido.');
-          return;
-        }
-        this.informacionInicioService.getReporteEmpleadoPdf(empleadoSeleccionado.id, mes, ano).subscribe(
-          (pdfBlob: Blob) => this.generarPdf(pdfBlob),
-          (error) => this.manejarError(error) // Manejar el error
-        );
-        break;
+      console.log("Mes como string:", mesNum, "Año como string:", anoNum);
+      // Handle each report type
+      switch (reporteTipo) {
+        case 'empleadosTodos':
+          if (mes === undefined || ano === undefined) {
+            alert('Mes y año no válidos para el reporte.');
+            console.error("Error: Mes o año no válidos.");
+            return;
+          }
+          console.log("Generando reporte para todos los empleados.");
+          this.isLoading = true;
+          this.informacionInicioService.getReporteMensualPdf(mesNum, anoNum).subscribe(
+            (pdfBlob: Blob) => this.generarPdf(pdfBlob),
+            (error) => this.manejarError(error)
+          );
+          this.isLoading = false;
+          break;
 
-      case 'empleadoFecha':
-        if (!empleadoSeleccionado || !fechaEspecifica) {
-          alert('Por favor selecciona un empleado y una fecha válida.');
-          return;
-        }
-        this.informacionInicioService.getReporteEmpleadoUnicoPdf(empleadoSeleccionado.id, fecha).subscribe(
-          (pdfBlob: Blob) => this.generarPdf(pdfBlob),
-          (error) => this.manejarError(error) // Manejar el error
-        );
-        break;
+        case 'empleadoIndividual':
+          if (!empleadoSeleccionado) {
+            alert('Por favor selecciona un empleado válido.');
+            console.error("Error: Empleado no seleccionado.");
+            return;
+          }
+          if (mes === undefined || ano === undefined) {
+            alert('Mes y año no válidos para el reporte.');
+            console.error("Error: Mes o año no válidos.");
+            return;
+          }
+          console.log("Generando reporte para empleado individual.", empleadoSeleccionado);
+          this.isLoading = true;
+          this.informacionInicioService.getReporteEmpleadoPdf(empleadoSeleccionado.id, mesNum, anoNum).subscribe(
+            (pdfBlob: Blob) => this.generarPdf(pdfBlob),
+            (error) => this.manejarError(error)
+          );
+          this.isLoading = false;
+          break;
 
-      case 'comparativoAsistencia':
-        this.informacionInicioService.getComparativoAsistenciaPdf(mes, ano).subscribe(
-          (pdfBlob: Blob) => this.generarPdf(pdfBlob),
-          (error) => this.manejarError(error) // Manejar el error
-        );
-        break;
+        case 'empleadoFecha':
+          if (!empleadoSeleccionado || !fechaEspecifica) {
+            alert('Por favor selecciona un empleado y una fecha válida.');
+            console.error("Error: Empleado o fecha no válidos.");
+            return;
+          }
+          console.log("Generando reporte para empleado con fecha específica.", empleadoSeleccionado, fechaEspecifica);
+          this.isLoading = true;
+          this.informacionInicioService.getReporteEmpleadoUnicoPdf(empleadoSeleccionado.id, new Date(fechaEspecifica)).subscribe(
+            (pdfBlob: Blob) => this.generarPdf(pdfBlob),
+            (error) => this.manejarError(error)
+          );
+          this.isLoading = false;
+          break;
 
-      default:
-        alert('Tipo de reporte no válido.');
-        break;
-    }
+        case 'comparativoAsistencia':
+          if (mes === undefined || ano === undefined) {
+            alert('Mes y año no válidos para el reporte.');
+            console.error("Error: Mes o año no válidos.");
+            return;
+          }
+          console.log("Generando reporte comparativo de asistencia.");
+          this.isLoading = true;
+          this.informacionInicioService.getComparativoAsistenciaPdf(mesNum, anoNum).subscribe(
+            (pdfBlob: Blob) => this.generarPdf(pdfBlob),
+            (error) => this.manejarError(error)
+          );
+          this.isLoading = false;
+          break;
+
+        default:
+          alert('Tipo de reporte no válido.');
+          console.error("Error: Tipo de reporte no reconocido.");
+          break;
+
+      }
+    
+
   }
+
+
 
   // Función para manejar los errores
   // Función para manejar los errores

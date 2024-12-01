@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
 })
 export class LoginService {
   // URLs extraídas como variables independientes
-  private BASE_URL = 'http://localhost:8080/usuario';
+  private BASE_URL = 'https://farmacia-proyecto-backend.onrender.com/usuario';
   private LOGIN_URL = `${this.BASE_URL}/login`;
   private FORGOT_PASSWORD_URL = `${this.BASE_URL}/forgot-password`;
   private RESET_PASSWORD_URL = `${this.BASE_URL}/reset-password`;
@@ -18,7 +18,7 @@ export class LoginService {
   private UPDATE_PASSWORD_URL = `${this.BASE_URL}/update-password`;
 
   // Claves para almacenamiento local
-  private usuarioidKey = 'usuarioid';
+  private usuarioidKey = 'usuarioId';
   private estudianteidKey = 'estudianteid';
   private rememberMeKey = 'rememberMe';
   private roleKey = 'role';
@@ -79,6 +79,7 @@ export class LoginService {
           const role = response.data.rol;
           const correoElectronico = response.data.correoElectronico;
 
+          console.log(userId)
           localStorage.setItem(this.usuarioidKey, userId.toString());
           localStorage.setItem(this.roleKey, role);
           localStorage.setItem('correoElectronico', correoElectronico);

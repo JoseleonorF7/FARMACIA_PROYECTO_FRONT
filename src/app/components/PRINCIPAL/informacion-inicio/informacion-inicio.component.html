@@ -17,50 +17,47 @@
     <!-- Sección de reportes -->
     <h3>Generar Reportes</h3>
     <!-- Botón para mostrar el modal -->
-    <button class="btn btn-info mt-3" (click)="toggleFormularioReporte()">Generar Reporte</button>
+
+
+    <button class="btn btn-info mt-3" (click)="toggleFormularioReporte()"  [disabled]="isLoading">
+      <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Generar Reporte
+    </button>
 
     <div class="row align-items-center mb-3">
-  <!-- Checkbox para activar reporte automático -->
-  <div class="col-md-4 d-flex align-items-center">
-    <div class="form-check">
-      <input
-        class="form-check-input"
-        type="checkbox"
-        id="reporteAutomatico"
-        [(ngModel)]="reporteAutomatico"
-        (change)="toggleReporteAutomatico()"
-      />
-      <label class="form-check-label ms-2" for="reporteAutomatico">
-        Activar reporte automático
-      </label>
+      <!-- Checkbox para activar reporte automático -->
+      <div class="col-md-4 d-flex align-items-center">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="reporteAutomatico" [(ngModel)]="reporteAutomatico"
+            (change)="toggleReporteAutomatico()" />
+          <label class="form-check-label ms-2" for="reporteAutomatico">
+            Activar reporte automático
+          </label>
+        </div>
+      </div>
+
+      <!-- Combo box para seleccionar la frecuencia (visible solo si está activado el checkbox) -->
+      <div class="col-md-4" *ngIf="reporteAutomatico">
+        <label class="form-label me-2">Frecuencia:</label>
+        <select class="form-select" [(ngModel)]="frecuenciaReporte" (change)="agendarEnvioReporte()">
+          <option value="">Selecciona</option>
+          <option value="mensual">Mensual</option>
+          <option value="quincenal">Quincenal</option>
+        </select>
+      </div>
+
+      <!-- Mostrar el tiempo restante (visible solo si está activado el checkbox) -->
+      <div class="col-md-4" *ngIf="reporteAutomatico">
+        <label class="form-label">Tiempo restante:</label>
+        <p class="mb-0">{{ tiempoRestante || 'Selecciona una frecuencia' }}</p>
+      </div>
     </div>
-  </div>
-
-  <!-- Combo box para seleccionar la frecuencia (visible solo si está activado el checkbox) -->
-  <div class="col-md-4" *ngIf="reporteAutomatico">
-    <label class="form-label me-2">Frecuencia:</label>
-    <select
-      class="form-select"
-      [(ngModel)]="frecuenciaReporte"
-      (change)="agendarEnvioReporte()"
-    >
-      <option value="">Selecciona</option>
-      <option value="mensual">Mensual</option>
-      <option value="quincenal">Quincenal</option>
-    </select>
-  </div>
-
-  <!-- Mostrar el tiempo restante (visible solo si está activado el checkbox) -->
-  <div class="col-md-4" *ngIf="reporteAutomatico">
-    <label class="form-label">Tiempo restante:</label>
-    <p class="mb-0">{{ tiempoRestante || 'Selecciona una frecuencia' }}</p>
-  </div>
-</div>
 
 
-    
+
     <!-- Modal de generación de reportes -->
-    <div *ngIf="formularioVisible" class="modal fade show" tabindex="-1" aria-labelledby="generarReporteLabel" aria-hidden="true" style="display: block;">
+    <div *ngIf="formularioVisible" class="modal fade show" tabindex="-1" aria-labelledby="generarReporteLabel"
+      aria-hidden="true" style="display: block;">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -73,168 +70,176 @@
               <!-- Selección de tipo de reporte -->
               <div class="mb-3">
                 <label for="reporteTipo" class="form-label">Selecciona el tipo de reporte</label>
-                <select class="form-select" id="reporteTipo" [(ngModel)]="reporteTipo" name="reporteTipo" (change)="onTipoReporteChange()">
+                <select class="form-select" id="reporteTipo" [(ngModel)]="reporteTipo" name="reporteTipo"
+                  (change)="onTipoReporteChange()">
                   <option value="empleadosTodos">Información General de Todos los Empleados (Mes)</option>
                   <option value="empleadoIndividual">Reporte de un Empleado Específico (Mes)</option>
                   <option value="empleadoFecha">Reporte de un Empleado (Fecha Específica)</option>
                   <option value="comparativoAsistencia">Comparativa de Asistencia (Todos los Empleados)</option>
                 </select>
               </div>
-            
+
               <!-- Fecha específica -->
               <div class="mb-3" *ngIf="mostrarFechaCompleta">
                 <label for="fechaEspecifica" class="form-label">Selecciona una Fecha</label>
-                <input type="date" class="form-control" id="fechaEspecifica" [(ngModel)]="fechaEspecifica" name="fechaEspecifica">
+                <input type="date" class="form-control" id="fechaEspecifica" [(ngModel)]="fechaEspecifica"
+                  name="fechaEspecifica">
               </div>
-            
+
               <!-- Mes y Año -->
               <div class="mb-3" *ngIf="!mostrarFechaCompleta">
                 <label for="mesAno" class="form-label">Selecciona un Mes y Año</label>
                 <input type="month" class="form-control" id="mesAno" [(ngModel)]="mesAno" name="mesAno">
               </div>
-            
+
               <!-- Selección de empleado -->
               <div class="mb-3" *ngIf="mostrarEmpleadoSelect">
                 <label for="empleado" class="form-label">Selecciona un Empleado</label>
-                <select class="form-select" id="empleado" [(ngModel)]="empleadoSeleccionado" name="empleadoSeleccionado">
+                <select class="form-select" id="empleado" [(ngModel)]="empleadoSeleccionado"
+                  name="empleadoSeleccionado">
                   <option [ngValue]="null" disabled hidden>Seleccione un empleado</option>
-                  <option *ngFor="let empleado of empleadosFiltrados" [ngValue]="empleado">{{ empleado.nombre }}</option>
+                  <option *ngFor="let empleado of empleadosFiltrados" [ngValue]="empleado">{{ empleado.nombre }}
+                  </option>
                 </select>
               </div>
-            
+
               <div class="form-group text-center">
-                <button type="button" class="btn btn-primary" (click)="abrirReporte()">Generar Reporte</button>
+
+
+                <button type="button" class="btn btn-primary" (click)="abrirReporte()" [disabled]="isLoading">
+                  <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  Generar Reporte
+                </button>
+             
               </div>
             </form>
-            
+
           </div>
         </div>
       </div>
     </div>
-    
+
   </div>
-  
-  
 
-  
- 
-<!-- Modal para actualizar empleados -->
-<div *ngIf="modalEstado" class="modal fade show" tabindex="-1" aria-labelledby="actualizarDatosLabel" aria-hidden="true"
-  style="display: block;">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Actualizar Datos de Empleados</h5>
-        <button type="button" class="btn-close" (click)="cerrarModal()"></button>
-      </div>
-      <div class="modal-body">
-        <!-- Filtro de búsqueda por nombre -->
-        <div class="form-group">
-          <label for="empleadoSeleccionado">Seleccionar empleado:</label>
-          <select class="form-control" [(ngModel)]="empleadoSeleccionado" (change)="llenarFormulario()">
-            <option [ngValue]="null" disabled hidden>Seleccione un empleado</option>
-            <option *ngFor="let empleado of empleadosFiltrados" [ngValue]="empleado">{{ empleado.nombre }}</option>
-          </select>
+
+
+
+
+  <!-- Modal para actualizar empleados -->
+  <div *ngIf="modalEstado" class="modal fade show" tabindex="-1" aria-labelledby="actualizarDatosLabel"
+    aria-hidden="true" style="display: block;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Actualizar Datos de Empleados</h5>
+          <button type="button" class="btn-close" (click)="cerrarModal()"></button>
         </div>
+        <div class="modal-body">
+          <!-- Filtro de búsqueda por nombre -->
+          <div class="form-group">
+            <label for="empleadoSeleccionado">Seleccionar empleado:</label>
+            <select class="form-control" [(ngModel)]="empleadoSeleccionado" (change)="llenarFormulario()">
+              <option [ngValue]="null" disabled hidden>Seleccione un empleado</option>
+              <option *ngFor="let empleado of empleadosFiltrados" [ngValue]="empleado">{{ empleado.nombre }}</option>
+            </select>
+          </div>
 
-        <!-- Formulario para actualizar los datos -->
-        <form (ngSubmit)="actualizarEmpleado()">
-          <div class="form-row">
-            <!-- Columna izquierda -->
-            <div class="form-column">
-              <div class="form-group">
-                <label for="idEmpleado">ID del Empleado:</label>
-                <input type="text" class="form-control" id="idEmpleado" [(ngModel)]="empleado.identificacion"
-                  name="identificacion" required readonly>
+          <!-- Formulario para actualizar los datos -->
+          <form (ngSubmit)="actualizarEmpleado()">
+            <div class="form-row">
+              <!-- Columna izquierda -->
+              <div class="form-column">
+                <div class="form-group">
+                  <label for="idEmpleado">ID del Empleado:</label>
+                  <input type="text" class="form-control" id="idEmpleado" [(ngModel)]="empleado.identificacion"
+                    name="identificacion" required readonly>
+                </div>
+                <div class="form-group">
+                  <label for="nombreEmpleado">Nombre:</label>
+                  <input type="text" class="form-control" id="nombreEmpleado" [(ngModel)]="empleado.nombre"
+                    name="nombre" required readonly>
+                </div>
+                <div class="form-group">
+                  <label for="rolEmpleado">Rol:</label>
+                  <input type="text" class="form-control" id="rolEmpleado" [(ngModel)]="empleadoSeleccionado.rol"
+                    name="rol">
+                </div>
               </div>
-              <div class="form-group">
-                <label for="nombreEmpleado">Nombre:</label>
-                <input type="text" class="form-control" id="nombreEmpleado" [(ngModel)]="empleado.nombre" name="nombre"
-                  required readonly>
-              </div>
-              <div class="form-group">
-                <label for="rolEmpleado">Rol:</label>
-                <input type="text" class="form-control" id="rolEmpleado" [(ngModel)]="empleadoSeleccionado.rol"
-                  name="rol">
-              </div>
-            </div>
-            <!-- Columna derecha -->
-            <div class="form-column">
+              <!-- Columna derecha -->
+              <div class="form-column">
 
-              <div class="form-group">
-                <label for="activo">Activo:</label>
-                <select id="activo" class="form-control" [(ngModel)]="empleadoSeleccionado.activo" name="activo">
-                  <option value=true>Sí</option>
-                  <option value=false>No</option>
-                </select>
-              </div>
-              <!-- Campo Fecha de Contratación -->
-              <div class="form-group">
-                <label for="fechaContratacion">Fecha de Contratación:</label>
-                <input type="date" class="form-control" id="fechaContratacion"
-                  [(ngModel)]="empleadoSeleccionado.fechaContratacion" name="fechaContratacion">
-              </div>
+                <div class="form-group">
+                  <label for="activo">Activo:</label>
+                  <select id="activo" class="form-control" [(ngModel)]="empleadoSeleccionado.activo" name="activo">
+                    <option value=true>Sí</option>
+                    <option value=false>No</option>
+                  </select>
+                </div>
+                <!-- Campo Fecha de Contratación -->
+                <div class="form-group">
+                  <label for="fechaContratacion">Fecha de Contratación:</label>
+                  <input type="date" class="form-control" id="fechaContratacion"
+                    [(ngModel)]="empleadoSeleccionado.fechaContratacion" name="fechaContratacion">
+                </div>
 
                 <!-- Horarios Disponibles -->
-      <div class="form-group table-horarios">
-        <label>Horarios Disponibles:</label>
-        <table>
-          <thead>
-            <tr>
-              <th>Seleccionar</th>
-              <th>Nombre</th>
-              <th>Detalle</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let horario of horarios">
-              <td>
-                <input 
-                  type="radio" 
-                  [value]="horario.id" 
-                  [(ngModel)]="empleadoSeleccionado.horario.id" 
-                  name="horarioSeleccionado"
-                />
-              </td>
-              <td>{{ horario.nombre }}</td>
-              <td>{{ horario.detalle }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                <div class="form-group table-horarios">
+                  <label>Horarios Disponibles:</label>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Seleccionar</th>
+                        <th>Nombre</th>
+                        <th>Detalle</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let horario of horarios">
+                        <td>
+                          <input type="radio" [value]="horario.id" [(ngModel)]="empleadoSeleccionado.horario.id"
+                            name="horarioSeleccionado" />
+                        </td>
+                        <td>{{ horario.nombre }}</td>
+                        <td>{{ horario.detalle }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
+
+              </div>
 
             </div>
-            
-          </div>
 
-          <div class="form-group text-center">
-            <button type="submit" class="btn btn-primary btn-lg">Actualizar</button>
-            <button type="button" class="btn btn-secondary btn-lg" (click)="cerrarModal()">Cancelar</button>
-          </div>
-        </form>
+            <div class="form-group text-center">
+              <button type="submit" class="btn btn-primary btn-lg">Actualizar</button>
+              <button type="button" class="btn btn-secondary btn-lg" (click)="cerrarModal()">Cancelar</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
-<!-- Modal o vista para mostrar el PDF -->
-<div *ngIf="mostrarReporte" class="modal fade show" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true" style="display: block;">
-  <div class="modal-dialog modal-lg" style="max-width: 90%; margin: auto;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Reporte de Asistencia</h5>
-        <button type="button" class="btn-close" (click)="mostrarReporte = false"></button>
-      </div>
-      <div class="modal-body">
-        <object *ngIf="pdfUrl" [data]="pdfUrl" type="application/pdf" width="100%" height="600px">
-          <p>Tu navegador no soporta el formato PDF. Por favor, descarga el archivo <a [href]="pdfUrl" download>aquí</a>.</p>
-        </object>
+  <!-- Modal o vista para mostrar el PDF -->
+  <div *ngIf="mostrarReporte" class="modal fade show" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true"
+    style="display: block;">
+    <div class="modal-dialog modal-lg" style="max-width: 90%; margin: auto;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Reporte de Asistencia</h5>
+          <button type="button" class="btn-close" (click)="mostrarReporte = false"></button>
+        </div>
+        <div class="modal-body">
+          <object *ngIf="pdfUrl" [data]="pdfUrl" type="application/pdf" width="100%" height="600px">
+            <p>Tu navegador no soporta el formato PDF. Por favor, descarga el archivo <a [href]="pdfUrl"
+                download>aquí</a>.</p>
+          </object>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 </div>
 
@@ -267,15 +272,17 @@
               <i class="fas fa-user-plus me-2"></i>Agregar Usuario
             </button>
           </li>
-          
-          <li><hr class="dropdown-divider" /></li>
+
+          <li>
+            <hr class="dropdown-divider" />
+          </li>
           <li>
             <button class="dropdown-item text-danger" (click)="logout()">
               <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
             </button>
           </li>
         </ul>
-        
+
       </div>
     </div>
 
@@ -284,11 +291,12 @@
 
 
 
-  
+
 
 <!-- Modal para actualizar contraseña -->
 <div class="modal" tabindex="-1" [ngClass]="{'d-block': modalVisible}" role="dialog">
-  <div class="modal-dialog modal-dialog-centered modal-sm" role="document"> <!-- modal-sm añadido para un tamaño más pequeño -->
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <!-- modal-sm añadido para un tamaño más pequeño -->
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Actualizar Contraseña</h5>
@@ -300,27 +308,16 @@
         <form (ngSubmit)="actualizarContrasena()">
           <div class="form-group">
             <label for="nuevaContrasena">Nueva Contraseña</label>
-            <input
-              type="password"
-              id="nuevaContrasena"
-              class="form-control"
-              [(ngModel)]="nuevaContrasena"
-              name="nuevaContrasena"
-              required
-            />
+            <input type="password" id="nuevaContrasena" class="form-control" [(ngModel)]="nuevaContrasena"
+              name="nuevaContrasena" required />
           </div>
           <div class="form-group">
             <label for="confirmarContrasena">Confirmar Contraseña</label>
-            <input
-              type="password"
-              id="confirmarContrasena"
-              class="form-control"
-              [(ngModel)]="confirmarContrasena"
-              name="confirmarContrasena"
-              required
-            />
+            <input type="password" id="confirmarContrasena" class="form-control" [(ngModel)]="confirmarContrasena"
+              name="confirmarContrasena" required />
           </div>
-          <button type="submit" class="btn btn-primary" [disabled]="!nuevaContrasena || !confirmarContrasena">Guardar</button>
+          <button type="submit" class="btn btn-primary"
+            [disabled]="!nuevaContrasena || !confirmarContrasena">Guardar</button>
         </form>
       </div>
     </div>
@@ -329,7 +326,8 @@
 
 <!-- Modal para Agregar Usuario -->
 <!-- Modal para Agregar Usuario -->
-<div *ngIf="modalAgregarUsuarioVisible" class="modal fade show" tabindex="-1" aria-labelledby="agregarUsuarioLabel" aria-hidden="true" style="display: block;">
+<div *ngIf="modalAgregarUsuarioVisible" class="modal fade show" tabindex="-1" aria-labelledby="agregarUsuarioLabel"
+  aria-hidden="true" style="display: block;">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -350,23 +348,27 @@
         <form #form="ngForm" (ngSubmit)="agregarUsuario(form)">
           <div class="mb-3">
             <label for="nombreUsuario" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombreUsuario" [(ngModel)]="nuevoUsuario.nombreCompleto" name="nombre" required>
+            <input type="text" class="form-control" id="nombreUsuario" [(ngModel)]="nuevoUsuario.nombreCompleto"
+              name="nombre" required>
           </div>
 
           <div class="mb-3">
             <label for="correoElectronico" class="form-label">Correo Electrónico</label>
-            <input type="email" class="form-control" id="correoElectronico" [(ngModel)]="nuevoUsuario.correoElectronico" name="correo" required>
+            <input type="email" class="form-control" id="correoElectronico" [(ngModel)]="nuevoUsuario.correoElectronico"
+              name="correo" required>
             <small class="text-muted">Asegúrate de ingresar un correo electrónico válido y en funcionamiento.</small>
           </div>
 
           <div class="mb-3">
             <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" [(ngModel)]="nuevoUsuario.username" name="username" required>
+            <input type="text" class="form-control" id="username" [(ngModel)]="nuevoUsuario.username" name="username"
+              required>
           </div>
 
           <div class="mb-3">
             <label for="password" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="password" [(ngModel)]="nuevoUsuario.password" name="password" required>
+            <input type="password" class="form-control" id="password" [(ngModel)]="nuevoUsuario.password"
+              name="password" required>
           </div>
 
           <div class="mb-3">
@@ -379,7 +381,8 @@
 
           <div class="form-group text-center">
             <button type="submit" class="btn btn-primary btn-lg">Agregar Usuario</button>
-            <button type="button" class="btn btn-secondary btn-lg" (click)="cerrarModalAgregarUsuario()">Cancelar</button>
+            <button type="button" class="btn btn-secondary btn-lg"
+              (click)="cerrarModalAgregarUsuario()">Cancelar</button>
           </div>
         </form>
       </div>
