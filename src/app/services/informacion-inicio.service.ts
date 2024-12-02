@@ -108,7 +108,7 @@ getReporteEmpleadoUnicoPdf(empleadoId: number, fecha: Date): Observable<Blob> {
 }
 
 getComparativoAsistenciaPdf(mes: number, ano: number): Observable<Blob> {
-  const url = `${this.apiUrlReporteComparativoMensual}?mes=${mes}&anio=${ano}`;
+    const url = `${this.apiUrlReporteComparativoMensual}?mes=${mes}&anio=${ano}`;
     return this.http.get(url, { responseType: 'blob' }).pipe(
         catchError((error: HttpErrorResponse) => {
             if (error.error instanceof Blob && error.error.type === 'application/json') {

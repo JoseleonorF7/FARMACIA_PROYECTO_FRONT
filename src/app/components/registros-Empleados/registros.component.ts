@@ -58,10 +58,15 @@ export class RegistrosComponent implements OnInit {
     }
   ];
 
+  fechaMaxima: string = '';
+
   constructor(private registroService: RegistroEmpleadosService) { }
 
   ngOnInit(): void {
     this.getHuellas();
+
+    const hoy = new Date();
+    this.fechaMaxima = hoy.toISOString().split('T')[0]; // Formato "YYYY-MM-DD"
   }
 
   getHuellas(): void {
@@ -71,7 +76,7 @@ export class RegistrosComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // Verificar si todos los campos están completos
+    // Validar si todos los campos están completos
     if (
       !this.empleado.primerNombre ||
       !this.empleado.primerApellido ||
@@ -84,33 +89,58 @@ export class RegistrosComponent implements OnInit {
       alert('Por favor, complete todos los campos antes de enviar el formulario.');
       return;
     }
+  
+    // Validar que la identificación sea válida
+    if (!/^\d+$/.test(this.empleado.identificacion)) {
+      alert('La identificación debe contener solo números.');
+      return;
+    }
+  
+    // Validar la fecha de contratación
+    const hoy = new Date();
+    const fechaContratacion = new Date(this.empleado.fechaContratacion);
 
+    console.log(hoy)
+    console.log(fechaContratacion)
+    if (fechaContratacion > hoy) {
+      alert('La fecha de contratación no puede ser futura.');
+      return;
+    }
+    const limiteAntiguo = new Date(hoy.getFullYear() - 50, hoy.getMonth(), hoy.getDate());
+    if (fechaContratacion < limiteAntiguo) {
+      alert('La fecha de contratación no puede ser anterior a 50 años.');
+      return;
+    }
+  
+  
     // Unir los nombres en un solo atributo
     this.empleado.nombre = `${this.empleado.primerNombre} ${this.empleado.segundoNombre || ''} ${this.empleado.primerApellido} ${this.empleado.segundoApellido || ''}`.trim();
-
+  
     // Convertir activoStr a boolean
     this.empleado.activo = this.empleado.activoStr === 'Sí';
-
+  
     // Añadir el horario seleccionado
     this.empleado.horario = {
       id: Number(this.empleado.horarioSeleccionado) // Convertir a número para enviar al backend
     };
-    console.log(this.empleado)
-    console.log(this.empleado.horario)
+  
+    console.log(this.empleado);
+    console.log(this.empleado.horario);
+  
     // Enviar al backend
     this.registroService.updateEmpleado(this.empleado.huellaDactilar, this.empleado)
       .subscribe(
         (response) => {
           console.log('Empleado registrado:', response);
           alert(response.message || 'Empleado registrado correctamente');
-
+  
           // Vaciar el formulario después de éxito
           this.resetForm();
           this.onRefresh();
         },
         (error) => {
           console.error('Error al actualizar el empleado:', error);
-
+  
           // Mostrar el mensaje de error desde el backend, si está disponible
           if (error.error && error.error.message) {
             alert(error.error.message);
@@ -120,7 +150,7 @@ export class RegistrosComponent implements OnInit {
         }
       );
   }
-
+  
   // Método para vaciar el formulario
   resetForm(): void {
     this.empleado = {
@@ -141,6 +171,7 @@ export class RegistrosComponent implements OnInit {
       }
     };
   }
+  
 
   onRefresh(): void {
     this.getHuellas(); // Actualiza la lista de huellas
