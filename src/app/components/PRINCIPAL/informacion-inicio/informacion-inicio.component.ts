@@ -89,12 +89,16 @@ export class InformacionInicioComponent implements OnInit {
     const userId = localStorage.getItem('usuarioId');
 
     console.log(userId)
-    if (userId) {
+    console.log(userId?.trim()!== "")
+    if (userId && userId.trim() !== "") {
       this.loginService.getStudentInfo(userId).subscribe(
         (response) => {
           console.log(response)
           // Aquí estamos asignando solo el 'data' del response a la variable studentInfo
           this.studentInfo = response;
+          console.log(response.nombreCompleto)
+          console.log(response.rol)
+         
         },
         (error) => {
           console.error('Error al obtener la información del estudiante', error);
