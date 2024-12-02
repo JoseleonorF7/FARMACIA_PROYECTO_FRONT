@@ -109,8 +109,22 @@ getReporteEmpleadoUnicoPdf(empleadoId: number, fecha: Date): Observable<Blob> {
 
 getComparativoAsistenciaPdf(mes: number, ano: number): Observable<Blob> {
   const url = `${this.apiUrlReporteComparativoMensual}?mes=${mes}&anio=${ano}`;
-  return this.http.get(url, { responseType: 'blob' });
+    return this.http.get(url, { responseType: 'blob' }).pipe(
+        catchError((error: HttpErrorResponse) => {
+            if (error.error instanceof Blob && error.error.type === 'application/json') {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    console.error('Error detectado en el reporte comparativo:', reader.result);
+                };
+                reader.readAsText(error.error);
+            } else {
+                console.error('Error desconocido en el reporte comparativo:', error);
+            }
+            return throwError(() => error);
+        })
+    );
 }
+
 
 
 
